@@ -1,0 +1,4 @@
+# WordPress plugins to scan
+elementor,3.6.0
+contact-form-7,5.5.0
+woocommerce,6.0.0

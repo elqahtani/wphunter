@@ -1,0 +1,1741 @@
+{
+  "scan": {
+    "input_file": "live-plugins.csv",
+    "source": "wpscan + wpvulndb",
+    "type": "wordpress"
+  },
+  "summary": {
+    "total": 114,
+    "critical": 2,
+    "high": 5,
+    "medium": 37,
+    "low": 1,
+    "unknown": 69
+  },
+  "vulnerabilities": [
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2023-48777",
+      "cvss_score": 9.9,
+      "severity": "CRITICAL",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.18.2",
+      "fix_version": "3.18.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-48777",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-48777",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-18-0-arbitrary-file-upload-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3180-authenticatedcontributor-arbitrary-file-upload-to-remote-code-execution-via-template-import",
+        "https://wpscan.com/vulnerability/a6b3b14c-f06b-4506-9b88-854f155ebca9"
+      ]
+    },
+    {
+      "plugin": "really-simple-ssl",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-10924",
+      "cvss_score": 9.8,
+      "severity": "CRITICAL",
+      "summary": "Really Simple Security &#8211; Simple and Performant Security (formerly Really Simple SSL) [really-simple-ssl] >= 9.0.0 - <= 9.1.1.1",
+      "fix_version": "9.1.1.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10924",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-10924",
+        "https://patchstack.com/database/wordpress/plugin/really-simple-ssl/vulnerability/wordpress-really-simple-security-plugin-9-0-0-9-1-1-1-unauthenticated-authentication-bypass-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/detail/really-simple-security-free-pro-and-pro-multisite-900-9111-authentication-bypass"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2022-1329",
+      "cvss_score": 8.8,
+      "severity": "HIGH",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] >= 3.6.0 - <= 3.6.2",
+      "fix_version": "3.6.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-1329",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2022-1329",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-website-builder-plugin-3-6-2-arbitrary-file-upload-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-360-362-missing-authorization-to-remote-code-execution",
+        "https://wpscan.com/vulnerability/df62d170-c7d1-43a4-b6dc-20512934c33e"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2023-47504",
+      "cvss_score": 7.5,
+      "severity": "HIGH",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5",
+      "fix_version": "3.16.5",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47504",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-47504",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-16-4-contributor-arbitrary-attachment-read-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-3164-missing-authorization-to-arbitrary-attachment-read",
+        "https://wpscan.com/vulnerability/e60f0f7e-4c3b-4107-803a-8e03526859ed"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-24934",
+      "cvss_score": 8.5,
+      "severity": "HIGH",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.1",
+      "fix_version": "3.19.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24934",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-24934",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3190-authenticatedcontributor-arbitrary-file-deletion-and-phar-deserialization",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-19-0-arbitrary-file-deletion-and-phar-deserialization-vulnerability",
+        "https://wpscan.com/vulnerability/4d7dfcc6-8c32-4e0d-b3bb-7e2685916e2b"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "CVE-2023-32960",
+      "cvss_score": 7.1,
+      "severity": "HIGH",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.23.4",
+      "fix_version": "1.23.4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-32960",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-32960",
+        "https://patchstack.com/database/wordpress/plugin/updraftplus/vulnerability/wordpress-updraftplus-plugin-1-23-3-csrf-lead-to-wp-admin-site-wide-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/updraftplus/updraftplus-1233-cross-site-request-forgery-to-cross-site-scripting-via-action-authenticate-storage",
+        "https://wpscan.com/vulnerability/eb9f67b9-1956-4485-a007-1eb932288200"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "CVE-2024-10957",
+      "cvss_score": 8.8,
+      "severity": "HIGH",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.24.12",
+      "fix_version": "1.24.12",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10957",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-10957",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/updraftplus/updraftplus-wp-backup-migration-plugin-12411-unauthenticated-php-object-injection",
+        "https://patchstack.com/database/wordpress/plugin/updraftplus/vulnerability/wordpress-updraftplus-plugin-1-24-11-unauthenticated-php-object-injection-vulnerability"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2022-38093",
+      "cvss_score": 5.4,
+      "severity": "MEDIUM",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.2.4",
+      "fix_version": "4.2.4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-38093",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2022-38093",
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-plugin-4-2-3-1-multiple-cross-site-request-forgery-csrf-vulnerabilities",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/all-in-one-seo-pack/all-in-one-seo-4231-cross-site-request-forgery",
+        "https://wpscan.com/vulnerability/5f31b537-186d-424c-a0c3-56f29146bb6e"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2023-0586",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.3.0",
+      "fix_version": "4.3.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0586",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-0586",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/all-in-one-seo-pack/all-in-one-seo-pack-429-authenticated-contributor-stored-cross-site-scripting",
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-pack-plugin-4-2-9-authenticated-contributor-stored-cross-site-scripting-vulnerability",
+        "https://wpscan.com/vulnerability/e2e78948-81cc-49e4-9a68-1a989a4a0585"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2023-0585",
+      "cvss_score": 4.4,
+      "severity": "MEDIUM",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.3.0",
+      "fix_version": "4.3.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0585",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-0585",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/all-in-one-seo-pack/all-in-one-seo-pack-429-authenticated-administrator-stored-cross-site-scripting",
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-pack-plugin-4-2-9-authenticated-administrator-stored-cross-site-scripting-vulnerability",
+        "https://wpscan.com/vulnerability/3ace429e-42a8-4b1b-8a39-5262f289cbd9"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2024-3554",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.6.1.1",
+      "fix_version": "4.6.1.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3554",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-3554",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/all-in-one-seo-pack/all-in-one-seo-best-wordpress-seo-plugin-easily-improve-seo-rankings-increase-traffic-460-authenticated-contributor-stored-cross-site-scripting-via-shortcode",
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-best-wordpress-seo-plugin-easily-improve-seo-rankings-increase-traffic-plugin-4-6-0-authenticated-contributor-stored-cross-site-scripting-via-shortcode-vulnerability"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-12847",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.9.0",
+      "fix_version": "4.9.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-12847",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-12847"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-14384",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.9.3",
+      "fix_version": "4.9.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-14384",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-14384"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2023-47505",
+      "cvss_score": 6.5,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.16.5",
+      "fix_version": "3.16.5",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47505",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-47505",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-16-4-cross-site-scripting-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-3164-authenticated-contributor-stored-cross-site-scripting-via-get-inline-svg",
+        "https://wpscan.com/vulnerability/62b53acf-6551-4ea7-8727-039a3c9ba7ce"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-0506",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.19.0",
+      "fix_version": "3.19.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0506",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-0506",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3183-authenticated-contributor-stored-cross-site-scripting-via-get-image-alt",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-18-3-authenticated-stored-cross-site-scripting-via-get-image-alt-vulnerability",
+        "https://wpscan.com/vulnerability/57af46d9-9a26-4085-9829-e0add7893332"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-2117",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.20.3",
+      "fix_version": "3.20.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-2117",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-2117",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3202-authenticated-contributor-dom-based-stored-cross-site-scripting-via-path-widget",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-20-2-auth-stored-cross-site-scripting-vulnerability",
+        "https://wpscan.com/vulnerability/22e8d017-79f5-40c8-8a2c-e0ee42ba80c8"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-4619",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.22.0-beta2",
+      "fix_version": "3.22.0-beta2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4619",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-4619",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-website-builder-plugin-3-21-4-authenticated-contributor-dom-based-stored-cross-site-scripting-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3214-authenticated-contributor-dom-based-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-37437",
+      "cvss_score": 5.5,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.22.2",
+      "fix_version": "3.22.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37437",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-37437",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-website-builder-more-than-just-a-page-builder-plugin-3-22-1-arbitrary-file-download-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-3221-authenticated-contributor-arbitrary-svg-download"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-5416",
+      "cvss_score": 5.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.24.0",
+      "fix_version": "3.24.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-5416",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-5416",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3234-authenticated-contributor-stored-cross-site-scripting-in-the-url-parameter-in-multiple-widgets",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-website-builder-plugin-3-23-4-authenticated-contributor-stored-cross-site-scripting-in-the-url-parameter-in-multiple-widgets-vulnerability"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-6757",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.24.6",
+      "fix_version": "3.24.6",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6757",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-6757",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-24-5-authenticated-contributor-basic-information-exposure-via-get-image-alt-function-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3235-authenticated-contributor-basic-information-exposure-via-get-image-alt-function"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-8236",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.8",
+      "fix_version": "3.25.8",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-8236",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-8236",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3257-authenticated-contributor-stored-cross-site-scripting",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-website-builder-more-than-just-a-page-builder-plugin-3-25-7-authenticated-contributor-stored-cross-site-scripting-vulnerability"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-10453",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.10",
+      "fix_version": "3.25.10",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10453",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-10453",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3259-authenticated-contributor-stored-cross-site-scripting-via-typography-settings",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-25-9-authenticated-contributor-stored-cross-site-scripting-via-typography-settings-vulnerability"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-13445",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.27.5",
+      "fix_version": "3.27.5",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-13445",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-13445",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-more-than-just-a-page-builder-3274-authenticated-contributor-stored-cross-site-scripting",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2025-4628"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-54444",
+      "cvss_score": 6.5,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.25.11",
+      "fix_version": "3.25.11",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-54444",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-54444",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-32510-authenticated-contributor-stored-cross-site-scripting",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2024-53932"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2025-11220",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.33.4",
+      "fix_version": "3.33.4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-11220",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-11220"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2023-33922",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.3",
+      "fix_version": "3.13.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-33922",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-33922",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-13-2-broken-access-control-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3133-authenticatedcontributor-arbitrary-post-type-creation-via-save-item"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2023-47774",
+      "cvss_score": 5.4,
+      "severity": "MEDIUM",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 12.7",
+      "fix_version": "12.7",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47774",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-47774",
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-12-7-contributor-iframe-injection-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-127-authenticatedcontributor-clickjacking-via-iframe-injection",
+        "https://wpscan.com/vulnerability/01a0ffcd-3bf6-434c-9fd0-d5570ed4f336"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2023-47788",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 12.7",
+      "fix_version": "12.7",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47788",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-47788",
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-12-7-contributor-broken-access-control-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-1262-improper-authorization-via-wpcom-external-media-rest-endpoints",
+        "https://wpscan.com/vulnerability/cce4ac0a-777f-4dde-b86e-614a224dbf6e"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2023-45050",
+      "cvss_score": 6.5,
+      "severity": "MEDIUM",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 12.8-a.3",
+      "fix_version": "12.8-a.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45050",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-45050",
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-12-8-a-1-cross-site-scripting-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-128-a1-authenticated-contributor-stored-cross-site-scripting-via-block-attribute",
+        "https://wpscan.com/vulnerability/4478c8d3-0c7f-43a0-9354-46795e0e6fbc"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2024-4392",
+      "cvss_score": 6.4,
+      "severity": "MEDIUM",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.4",
+      "fix_version": "13.4",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4392",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-4392",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-wp-security-backup-speed-growth-1331-authenticated-contributor-stored-cross-site-scripting-via-wpvideo-shortcode",
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-13-3-1-authenticated-contributor-stored-cross-site-scripting-via-wpvideo-shortcode-vulnerability"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2023-54332",
+      "cvss_score": 6.1,
+      "severity": "MEDIUM",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 11.4 (unfixed)",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-54332",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-54332"
+      ]
+    },
+    {
+      "plugin": "really-simple-ssl",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-31229",
+      "cvss_score": 5.5,
+      "severity": "MEDIUM",
+      "summary": "Really Simple Security &#8211; Simple and Performant Security (formerly Really Simple SSL) [really-simple-ssl] < 8.0.0",
+      "fix_version": "8.0.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-31229",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-31229",
+        "https://patchstack.com/database/wordpress/plugin/really-simple-ssl/vulnerability/wordpress-really-simple-ssl-plugin-7-2-3-server-side-request-forgery-ssrf-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/really-simple-ssl/really-simple-ssl-723-authenticated-admin-server-side-request-forgery"
+      ]
+    },
+    {
+      "plugin": "really-simple-ssl",
+      "version": "6.0.0",
+      "cve_id": "CVE-2025-24623",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "Really Simple Security &#8211; Simple and Performant Security (formerly Really Simple SSL) [really-simple-ssl] < 9.2.0",
+      "fix_version": "9.2.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-24623",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-24623",
+        "https://patchstack.com/database/wordpress/plugin/really-simple-ssl/vulnerability/wordpress-really-simple-security-plugin-9-1-4-cross-site-request-forgery-csrf-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/really-simple-ssl/really-simple-ssl-914-cross-site-request-forgery",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2025-3825"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "CVE-2023-5982",
+      "cvss_score": 5.4,
+      "severity": "MEDIUM",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.23.11",
+      "fix_version": "1.23.11",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-5982",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-5982",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/updraftplus/updraftplus-12310-cross-site-request-forgery-to-google-drive-storage-update",
+        "https://patchstack.com/database/wordpress/plugin/updraftplus/vulnerability/wordpress-updraftplus-plugin-1-23-10-cross-site-request-forgery-to-google-drive-storage-update-vulnerability",
+        "https://wpscan.com/vulnerability/4be35cd3-4a39-4223-8ff4-35b542224b54"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2021-32790",
+      "cvss_score": 4.9,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 6.6.0",
+      "fix_version": "6.6.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-32790",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2021-32790",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-55-authenticated-blind-sql-injection",
+        "https://wpscan.com/vulnerability/1212fec8-1fde-41e5-af70-abdd7ffe5379"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2023-47777",
+      "cvss_score": 6.5,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 8.2.0",
+      "fix_version": "8.2.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-47777",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-47777",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-1-1-contributor-cross-site-scripting-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/detail/woocommerce-811-woocommerce-blocks-1111-authenticated-contributor-stored-cross-site-scripting-via-featured-image-alt-attribute",
+        "https://wpscan.com/vulnerability/b8e9b8cf-8d13-4fd8-8e1e-ee35a01baf05"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2023-52222",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 8.3.0",
+      "fix_version": "8.3.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-52222",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-52222",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-2-2-cross-site-request-forgery-csrf-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-822-cross-site-request-forgery",
+        "https://wpscan.com/vulnerability/d11e7996-3417-4b1b-a090-2f4d31cdd11d"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-22155",
+      "cvss_score": 4.3,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 8.6.0",
+      "fix_version": "8.6.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-22155",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-22155",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-5-2-cross-site-request-forgery-csrf-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-852-cross-site-request-forgery"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-37297",
+      "cvss_score": 5.4,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 8.9.3",
+      "fix_version": "8.9.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-37297",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-37297",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-880-892-reflected-cross-site-scripting-via-order-attribution"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-39666",
+      "cvss_score": 5.9,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 9.1.3",
+      "fix_version": "9.1.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-39666",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-39666",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-9-1-2-cross-site-scripting-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-912-authenticated-administrator-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-9944",
+      "cvss_score": 5.3,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 9.1.0",
+      "fix_version": "9.1.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-9944",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-9944",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-9-0-2-unauthenticated-html-injection-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-902-unauthenticated-html-injection"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2025-26762",
+      "cvss_score": 5.9,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] < 9.7.1",
+      "fix_version": "9.7.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-26762",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-26762",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-970-authenticated-shop-manager-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2025-49042",
+      "cvss_score": 5.9,
+      "severity": "MEDIUM",
+      "summary": "WooCommerce [woocommerce] <= 10.0.2 (unfixed)",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-49042",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-49042"
+      ]
+    },
+    {
+      "plugin": "wordfence",
+      "version": "7.5.0",
+      "cve_id": "CVE-2022-3144",
+      "cvss_score": 4.4,
+      "severity": "MEDIUM",
+      "summary": "Wordfence Security &#8211; Firewall, Malware Scan, and Login Security [wordfence] < 7.6.1",
+      "fix_version": "7.6.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-3144",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2022-3144",
+        "https://patchstack.com/database/wordpress/plugin/wordfence/vulnerability/wordpress-wordfence-security-firewall-malware-scan-plugin-7-6-0-authenticated-stored-cross-site-scripting-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/wordfence/wordfence-security-firewall-malware-scan-760-authenticated-admin-stored-cross-site-scripting",
+        "https://wpscan.com/vulnerability/3f3273f3-bc73-4a3e-8ba7-c5a31c4a1c8c"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-35777",
+      "cvss_score": 3.5,
+      "severity": "LOW",
+      "summary": "WooCommerce [woocommerce] < 9.0.0",
+      "fix_version": "9.0.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-35777",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-35777",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-9-2-content-injection-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-892-authenticated-shop-manager-content-injection"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2024-3368",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.6.1.1",
+      "fix_version": "4.6.1.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3368",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-3368",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/all-in-one-seo-pack/all-in-one-seo-460-authenticated-contributor-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-2892",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "All in One SEO – Powerful SEO Plugin to Boost SEO Rankings &amp; Increase Traffic [all-in-one-seo-pack] < 4.8.2",
+      "fix_version": "4.8.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-2892",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-2892",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/all-in-one-seo-pack/all-in-one-seo-pack-4811-authenticated-contributor-stored-cross-site-scripting-via-post-meta-description-and-canonical-url",
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-pack-plugin-4-8-1-1-authenticated-contributor-stored-cross-site-scripting-via-post-meta-description-and-canonical-url-vulnerability",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2025-15663"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-58650",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "All In One SEO Pack < 4.8.7.2 - Missing Authorization",
+      "fix_version": "4.8.7.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58650",
+      "source": "wpscan",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-pack-plugin-4-8-7-broken-access-control-vulnerability"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-58649",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "All In One SEO Pack < 4.8.7.2 - Contributor+ Sensitive Information Exposure",
+      "fix_version": "4.8.7.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-58649",
+      "source": "wpscan",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/all-in-one-seo-pack/vulnerability/wordpress-all-in-one-seo-pack-plugin-4-8-7-sensitive-data-exposure-vulnerability"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-67950",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "All In One SEO Pack < 4.9.1.1 - Contributor+ SQL Injection",
+      "fix_version": "4.9.1.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67950",
+      "source": "wpscan",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/id/f6043cff-f2b7-46bb-b00d-96bfcd69e54e"
+      ]
+    },
+    {
+      "plugin": "all-in-one-seo-pack",
+      "version": "4.2.0",
+      "cve_id": "CVE-2025-64295",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "All In One SEO Pack < 4.8.7 - Subscriber+ Information Exposure",
+      "fix_version": "4.8.7",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-64295",
+      "source": "wpscan",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/id/d77a47e9-0d34-4a88-a913-74a8ef972f9b"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2023-0329",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
+      "fix_version": "3.12.2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-0329",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-0329",
+        "https://wpscan.com/vulnerability/a875836d-77f4-4306-b275-2b60efff1493"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "0b68091c-6a05-4f81-a718-6ec139df2e96",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder < 3.13.2 - Missing Authorization",
+      "fix_version": "3.13.2",
+      "url": "",
+      "source": "wpscan",
+      "references": []
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2024-50555",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1",
+      "fix_version": "3.29.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-50555",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-50555",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/detail/elementor-website-builder-3290-authenticated-contributor-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2025-3075",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.29.1",
+      "fix_version": "3.29.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-3075",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-3075",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3290-authenticated-contributor-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2025-4566",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3",
+      "fix_version": "3.30.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-4566",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-4566",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3302-authenticated-contributor-stored-cross-site-scripting-via-text-path-widget"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2025-8081",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.30.3",
+      "fix_version": "3.30.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-8081",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-8081",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3302-authenticated-administrator-arbitrary-file-read-via-image-import"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2025-67588",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder < 3.33.1 - Missing Authorization",
+      "fix_version": "3.33.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-67588",
+      "source": "wpscan",
+      "references": [
+        "https://vdp.patchstack.com/database/Wordpress/Plugin/elementor/vulnerability/wordpress-elementor-website-builder-plugin-3-33-0-broken-access-control-vulnerability"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2021-24891",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.6.3",
+      "fix_version": "3.6.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-24891",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2021-24891",
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-website-builder-plugin-3-1-3-dom-cross-site-scripting-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-website-builder-347-dom-based-cross-site-scripting",
+        "https://wpscan.com/vulnerability/fbed0daa-007d-4f91-8d87-4bca7781de2d",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2021-11803"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "565068cf2e56373b8619f790e45c2f631d85f442000ae908a752241434f2b66b",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
+      "fix_version": "3.12.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3121-authenticatedadministrator-sql-injection-via-replace-urls"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "224ebf13e69c3784eef500bbf7dc2d5fbb220736818f8672a6e947741a7007ba",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.12.2",
+      "fix_version": "3.12.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-12-1-auth-sql-injection-sqli-vulnerability"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "8a6080fb9ce29ee09ef398e3e7a2e883df0b0ff235860753b7250b427dc45e56",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
+      "fix_version": "3.13.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/elementor/elementor-3131-missing-authorization-to-settings-update"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "cbb5cf9fe805168cbc2e6e5ac646f9e84186555dd1fe0f8e2dbbdf24cc40bc63",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
+      "fix_version": "3.13.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/elementor/vulnerability/wordpress-elementor-plugin-3-13-1-missing-authorization-to-settings-update-vulnerability"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "977c576cb23f9e1e80d061aa8cbf829891a4337a483d082eccb34a137f0f880e",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] < 3.13.2",
+      "fix_version": "3.13.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/0b68091c-6a05-4f81-a718-6ec139df2e96"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2026-32445",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32445",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2026-32445"
+      ]
+    },
+    {
+      "plugin": "elementor",
+      "version": "3.6.0",
+      "cve_id": "CVE-2026-32352",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Elementor Website Builder &#8211; More Than Just a Page Builder [elementor] <= 3.35.5 (unfixed)",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32352",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2026-32352"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2011-4673",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 1.1.3",
+      "fix_version": "1.1.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2011-4673",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2011-4673",
+        "https://patchstack.com/database/wordpress/plugin/jd-wordpress/vulnerability/wordpress-jetpack-plugin-sharedaddy-php-id-sql-injection-vulnerability"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "2008f93edab49cfe1cf156c2aeb2e21b8226ec0bb02ccea5c3257b10839005c5",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] >= 5.1 - <= 7.9",
+      "fix_version": "7.9",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/7105cb30-e393-4c79-aeb7-7439bd560738"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "55df299305e76a1864d782f1d266a4ff15348e98bdf572f3133668d606664ece",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] <= 7.9",
+      "fix_version": "7.9",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-79-stored-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "158ffac30063550df8d17c57d1b304cbe5fcf1a18438e3fad88a6ce482b352dc",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 12.1.1",
+      "fix_version": "12.1.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-12-1-arbitrary-file-overwrite-vulnerability"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2023-2996",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 12.1.1",
+      "fix_version": "12.1.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-2996",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2023-2996",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-121-authenticated-author-arbitrary-file-manipulation",
+        "https://wpscan.com/vulnerability/52d221bd-ae42-435d-a90a-60a5ae530663"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "f3bc308fbdd638a16f81be5d23957bfe4140a242906437f969e19faedb0ee95e",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.2.1",
+      "fix_version": "13.2.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/bfed3099-bd41-4988-a76b-2b9349051879"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2024-9926",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.9.1",
+      "fix_version": "13.9.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-9926",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-9926",
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-13-9-1-authenticated-arbitrary-feedback-access-vulnerability"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "d4c74bd185f943042cd6ae835135a6445fbc76fb46cacbcb7ea7636b7f37de1d",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.9.1",
+      "fix_version": "13.9.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-1391-missing-authorization-to-authenticated-subscriber-sensitive-information-disclosure"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2024-10858",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] >= 13.0 - < 14.1",
+      "fix_version": "14.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10858",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-10858",
+        "https://patchstack.com/database/wordpress/plugin/jetpack/vulnerability/wordpress-jetpack-plugin-13-0-14-0-unauthenticated-dom-xss-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/jetpack/jetpack-130-140-reflected-dom-based-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2024-10076",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.8",
+      "fix_version": "13.8",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10076",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-10076",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2025-15337"
+      ]
+    },
+    {
+      "plugin": "jetpack",
+      "version": "11.0",
+      "cve_id": "CVE-2024-10075",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Jetpack &#8211; WP Security, Backup, Speed, &amp; Growth [jetpack] < 13.8",
+      "fix_version": "13.8",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10075",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-10075",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2025-15352"
+      ]
+    },
+    {
+      "plugin": "really-simple-ssl",
+      "version": "6.0.0",
+      "cve_id": "CVE-2026-32461",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Really Simple Security &#8211; Simple and Performant Security (formerly Really Simple SSL) [really-simple-ssl] <= 9.5.7 (unfixed)",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-32461",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2026-32461"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "CVE-2017-16871",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] <= 1.13.12",
+      "fix_version": "1.13.12",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16871",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2017-16871"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "CVE-2017-16870",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] <= 1.13.12",
+      "fix_version": "1.13.12",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-16870",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2017-16870"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "b12b946beb1d62756a87e635ab59687742eaf4be01831bab7f1de8c3df978de6",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.23.1",
+      "fix_version": "1.23.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/updraftplus/updraft-plus-12224-cross-site-request-forgery-via-updraft-ajaxrestore"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "f024881a8f3076f8886cae313494a35502ef3f387950658b5448909bfe31fcee",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.23.1",
+      "fix_version": "1.23.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/vulnerability/updraftplus/wordpress-updraft-plus-plugin-1-22-24-cross-site-request-forgery-vulnerability"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "e92602f78438ccd59ab3ba0320b24854fae302821e7ba0bc85054a2ac67ceb7f",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] >= 1.22.14 - <= 1.23.2",
+      "fix_version": "1.23.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/updraftplus/updraft-plus-12214-to-1232-privilege-escalation-via-updraft-central-ajax-handler"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "8057ee50410dc4e1ecf90066c8a5d39ccd70c96dcbf5433ed77f9dc042ef0b1f",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] >= 1.22.14 - <= 1.23.2",
+      "fix_version": "1.23.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/updraftplus/vulnerability/wordpress-updraftplus-plugin-1-22-14-1-23-2-broken-access-control-vulnerability"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "555fd61b91e3a60fca1542a05232f4f87c31869f989ea66a27f947188dd5ebbc",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] >= 2.22.14 - <= 2.23.2",
+      "fix_version": "2.23.2",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/updraftplus/vulnerability/wordpress-updraftplus-pro-plugin-2-22-14-2-23-2-broken-access-control-vulnerability"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "2924c420eb2771c496e505467f964f82595deffd8943f45f5ee5204533578e90",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.23.1",
+      "fix_version": "1.23.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/updraftplus/vulnerability/wordpress-updraft-plus-plugin-1-22-24-sensitive-data-exposure-vulnerability"
+      ]
+    },
+    {
+      "plugin": "updraftplus",
+      "version": "1.22.24",
+      "cve_id": "CVE-2025-0215",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "UpdraftPlus: WP Backup &amp; Migration Plugin [updraftplus] < 1.25.1",
+      "fix_version": "1.25.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-0215",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-0215",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/updraftplus/updraftplus-backuprestore-12412-reflected-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2015-2329",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] >= 2.3 - <= 2.3.5",
+      "fix_version": "2.3.5",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-2329",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2015-2329",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-235-stored-cross-site-scripting",
+        "https://wpscan.com/vulnerability/7f1ab25f-4171-48a6-a67c-fa6020c7a0d6"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "07ccc3b2848a2a405965a58204b7254440d2e3ac3615619def3f9279374574f7",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.3.1",
+      "fix_version": "6.3.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-6-3-0-orders-status-change-via-paypal-standard-gateway-vulnerability"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "0159e64c88233db83a11b961ab3a16e84761e0939f0791e1cdb2baffc91ecc6d",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.2.1",
+      "fix_version": "6.2.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-6-2-0-path-traversal-via-importers-vulnerability"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "b00d0b4a6105f2be1f29664e6eefc826be30677ec79ee91baec35dd9e6607ca9",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.2.1",
+      "fix_version": "6.2.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-6-2-0-arbitrary-comment-deletion-vulnerability"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2022-2099",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.6.0",
+      "fix_version": "6.6.0",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-2099",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2022-2099",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-6-5-1-authenticated-stored-html-injection-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-651-authenticated-admin-html-injection",
+        "https://wpscan.com/vulnerability/0316e5f3-3302-40e3-8ff4-be3423a3be7b"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "2aa264f95467cc1d0721d3af4acc770b1a169d51bbea4dffed24682be67daf18",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.3.1",
+      "fix_version": "6.3.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-631-unauthorized-order-status-change"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "4f8cf3d730a243182582fd7d83bda52f2fb6106243be5bae70e5e0d53628751c",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.2.1",
+      "fix_version": "6.2.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-620-incorrect-authorization-checks-on-rest-api-endpoints"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "9cb7c43c75291726fe98dfefab5217ed75eb7134657cc392d12e770029eef9f6",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.2.1",
+      "fix_version": "6.2.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-620-path-traversal-via-tax-importer"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "817fb71f530f871a40e7450d60b02f07bf11e01917e503fb2cff8831e3c74895",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] >= 2.0.20 - <= 2.3.10",
+      "fix_version": "2.3.10",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-2310-php-object-injection"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "5fc488a0bdbecbd1b80a61e230dd8d91e3e0a6a06c8aa2a18c8a0db40cae4c18",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.2.1",
+      "fix_version": "6.2.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/bdda03d0-d657-4e12-8996-40152194c607"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2022-0775",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 6.2.1",
+      "fix_version": "6.2.1",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0775",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2022-0775",
+        "https://wpscan.com/vulnerability/b76dbf37-a0a2-48cf-bd85-3ebbc2f394dd"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "dad0462eb59203497fb7d312b6fdf52f791017da01ce7757d78a4a9d85548955",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 7.0.1",
+      "fix_version": "7.0.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-700-authenticatedshop-manager-sensitive-information-exposure"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "8b5ff6bece961dce5b443914e4a8077f8ca08df2b5584e0fa7b5bf38ae0b1f55",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 7.9.0",
+      "fix_version": "7.9.0",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-782-sensitive-information-exposure"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "3bb7ada696adf9ad1f94cfb1c2865825a5411fdde221d65c7e67bf48d9385b73",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 7.0.1",
+      "fix_version": "7.0.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/bb9f355a-be33-41b1-af36-0a30c24bec8c"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "2878efe2a9926c60183d0132f13590d0f6fae0e5b8f8b9e06cf2e614f8635787",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 7.9",
+      "fix_version": "7.9",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/d1cec296-b5df-4cea-8c0d-d03a975cb6af"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "5b2f6f5df1b5efe2624430ab221f6ddcaa4cf2dd089923cca59e6de19c481fac",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 7.0.1",
+      "fix_version": "7.0.1",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/45f56af8-b238-41a5-b7d5-bd40982d5ed7"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "dc33e5193a37d23dc622c1b24cc35ee465c7aeea09827963a19d943919bf5eca",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 7.9.0",
+      "fix_version": "7.9.0",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/9c9498b0-d42e-4ce0-b299-ba5d08058a75"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "95e6a6f56398dc3be1fd137c3cde05dc08c63038ebbac1c6efed83272e9942eb",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 8.4.0",
+      "fix_version": "8.4.0",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-840-reflected-cross-site-scripting"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "d465b504323a52466b3bf55b4898342a321a37ebf724d11dd4a02966b34f38a8",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 8.4.0",
+      "fix_version": "8.4.0",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-3-0-reflected-cross-site-scripting-vulnerability"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2024-1310",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 8.6",
+      "fix_version": "8.6",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1310",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-1310",
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-6-contributor-private-draft-products-access-vulnerability",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/post-new/woocommerce-852-missing-authorization-to-privatedraft-product-disclosure",
+        "https://wpscan.com/vulnerability/a7735feb-876e-461c-9a56-ea6067faf277"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "a4fb4d8390206c5c360657ced202b1e75af3fee4cf3d5a064e98335f15ff6d03",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 8.9.3",
+      "fix_version": "8.9.3",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-8-9-2-reflected-cross-site-scripting-xss-vulnerability"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "a017173dac82754443b91ebeca9932ee87f63118f362a82cef0d7d15998e61e7",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 8.4.0",
+      "fix_version": "8.4.0",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://wpscan.com/vulnerability/0b51f01a-24d9-4101-bdcf-728b21efc5ed"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "c5798f3828bb9462bc21a8267386ec6981f6eb3ac74a89de49bdaae2aa360d18",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 9.4.3",
+      "fix_version": "9.4.3",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/woocommerce/vulnerability/wordpress-woocommerce-plugin-9-4-3-unauthenticated-order-creation-vulnerability"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2025-5062",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] <= 9.4.2 (unfixed)",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-5062",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-5062",
+        "https://www.wordfence.com/threat-intel/vulnerabilities/wordpress-plugins/woocommerce/woocommerce-942-postmessage-based-cross-site-scripting",
+        "https://euvd.enisa.europa.eu/enisa/EUVD-2025-16105"
+      ]
+    },
+    {
+      "plugin": "woocommerce",
+      "version": "6.0.0",
+      "cve_id": "CVE-2025-15033",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "WooCommerce [woocommerce] < 10.4.3",
+      "fix_version": "10.4.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-15033",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2025-15033"
+      ]
+    },
+    {
+      "plugin": "wordfence",
+      "version": "7.5.0",
+      "cve_id": "CVE-2019-9669",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Wordfence Security &#8211; Firewall, Malware Scan, and Login Security [wordfence] <= 7.2.3",
+      "fix_version": "7.2.3",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9669",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2019-9669"
+      ]
+    },
+    {
+      "plugin": "wordfence",
+      "version": "7.5.0",
+      "cve_id": "1582a518b43018bfb630d66adc85e3737aa111d37c52f4f819a04d4ede435384",
+      "cvss_score": null,
+      "severity": "UNKNOWN",
+      "summary": "Wordfence Security &#8211; Firewall, Malware Scan, and Login Security [wordfence] <= 5.2.3",
+      "fix_version": "5.2.3",
+      "url": "",
+      "source": "wpvulndb",
+      "references": [
+        "https://patchstack.com/database/wordpress/plugin/wordfence/vulnerability/wordpress-wordfence-security-plugin-multiple-vulnerabilities"
+      ]
+    }
+  ]
+}
