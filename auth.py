@@ -40,6 +40,8 @@ class AuthCredential:
             headers["x-api-key"] = self.token
         else:
             headers["authorization"] = f"Bearer {self.token}"
+            # OAuth tokens require beta header
+            headers["anthropic-beta"] = "oauth-2025-04-20"
         return headers
 
 
@@ -141,19 +143,7 @@ def save_credential(credential: AuthCredential) -> Path:
 
 
 def validate_token(credential: AuthCredential) -> bool:
-    """Test the token with a minimal API request.
-
-    For API keys: sends a real request to verify the key works.
-    For OAuth tokens: validates format only (OAuth tokens use a different
-    auth flow and may not work with the standard messages endpoint).
-    """
-    if credential.auth_type == "oauth_token":
-        # OAuth tokens (sk-ant-oat01-*) from Claude Code subscriptions
-        # cannot be validated via the standard API endpoint.
-        # Accept if the format looks correct.
-        return credential.token.startswith("sk-ant-oat")
-
-    # API key validation: send a minimal request
+    """Test the token with a minimal API request."""
     try:
         resp = requests.post(
             "https://api.anthropic.com/v1/messages",
@@ -180,13 +170,14 @@ def interactive_connect() -> AuthCredential:
     console.print(Panel.fit(
         "[bold cyan]wphunter AI Authentication Setup[/]\n\n"
         "Choose how to authenticate with Claude AI:\n\n"
-        "[1] [bold green]Anthropic API Key[/] (sk-ant-api03-...) [green]← recommended[/]\n"
+        "[1] [bold]Anthropic API Key[/] (sk-ant-api03-...)\n"
         "    Pay-per-token billing. Get key at: console.anthropic.com\n\n"
-        "[dim][2] Claude Code OAuth Token (sk-ant-oat01-...)\n"
-        "    ⚠ OAuth tokens are NOT supported by the Anthropic API yet.\n"
-        "    This option is reserved for future support.\n\n"
-        "[3] Auto-detect from Claude Code\n"
-        "    ⚠ Same limitation as option 2 — OAuth tokens don't work yet.[/]",
+        "[2] [bold]Claude Code OAuth Token[/] (sk-ant-oat01-...)\n"
+        "    Uses your Claude Pro/Max subscription quota.\n"
+        "    Run [cyan]claude setup-token[/] in Claude Code to get this.\n\n"
+        "[3] [bold]Auto-detect from Claude Code[/]\n"
+        "    Reads token from ~/.claude/.credentials.json\n"
+        "    (Requires Claude Code installed and logged in)",
         title="Connect to Claude AI",
         border_style="cyan",
     ))
@@ -203,29 +194,22 @@ def interactive_connect() -> AuthCredential:
         )
 
     elif choice == "2":
-        console.print("\n[yellow]⚠ OAuth tokens (sk-ant-oat01-*) are NOT supported by the Anthropic API yet.[/]")
-        console.print("[yellow]  The API returns: 'OAuth authentication is currently not supported.'[/]")
-        console.print("[yellow]  Use option [1] with an API key from console.anthropic.com instead.[/]")
-        console.print()
-        confirm = input("Continue anyway? [y/N]: ").strip().lower()
-        if confirm != "y":
-            sys.exit(0)
+        console.print("\n[dim]Tip: Run 'claude setup-token' in your terminal to get your OAuth token.[/]")
         token = input("Enter your Claude Code OAuth Token: ").strip()
+        if not token.startswith("sk-ant-oat"):
+            console.print("[yellow]Warning: Token doesn't look like an OAuth token (expected sk-ant-oat...)[/]")
         credential = AuthCredential(
             token=token, auth_type="oauth_token",
             source="interactive", is_subscription=True,
         )
 
     elif choice == "3":
-        console.print("\n[yellow]⚠ Auto-detected Claude Code tokens use OAuth, which is NOT supported[/]")
-        console.print("[yellow]  by the Anthropic API yet. Use option [1] with an API key instead.[/]")
         credential = _read_claude_code_credentials()
         if not credential:
             console.print("[red]Could not find Claude Code credentials.[/]")
             console.print("Make sure Claude Code is installed and you're logged in.")
             sys.exit(1)
-        console.print("[green]Found OAuth token from Claude Code.[/]")
-        console.print("[yellow]Note: This token may not work for AI analysis until Anthropic enables OAuth API support.[/]")
+        console.print("[green]Found OAuth token from Claude Code![/]")
 
     else:
         console.print("[red]Invalid option.[/]")

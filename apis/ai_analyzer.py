@@ -9,7 +9,7 @@ import requests
 
 from auth import AuthCredential
 from apis.token_tracker import TokenTracker
-from config import AI_MODEL
+from config import AI_MODEL, AI_MODEL_OAUTH
 
 
 class AIAnalyzer:
@@ -19,7 +19,12 @@ class AIAnalyzer:
                  model: str = ""):
         self.credential = credential
         self.tracker = tracker
-        self.model = model or AI_MODEL
+        if model:
+            self.model = model
+        elif credential.auth_type == "oauth_token":
+            self.model = AI_MODEL_OAUTH
+        else:
+            self.model = AI_MODEL
         self.tracker.is_subscription = credential.is_subscription
 
     def _call_api(self, messages: list, purpose: str,
@@ -50,6 +55,14 @@ class AIAnalyzer:
             )
             return data
 
+        except requests.HTTPError as e:
+            print(f"    [!] AI API error: {e}")
+            if resp is not None:
+                try:
+                    print(f"    [!] Response: {resp.text[:500]}")
+                except Exception:
+                    pass
+            return None
         except requests.RequestException as e:
             print(f"    [!] AI API error: {e}")
             return None

@@ -214,6 +214,9 @@ Examples:
             console.print("[red][!] AI analysis requires authentication.[/red]")
             console.print("[yellow]    Run: python scanner.py connect[/yellow]")
             sys.exit(1)
+        if ai_cred.auth_type == "oauth_token":
+            from config import AI_MODEL_OAUTH
+            console.print(f"[dim][*] OAuth token detected — using {AI_MODEL_OAUTH} for AI analysis[/dim]")
 
     # ── Remote scanning ──────────────────────────────────────────────────
     if args.url:
