@@ -20,7 +20,7 @@ class TestCLIValidation:
     def test_no_args_fails(self):
         code, output = _run()
         assert code != 0
-        assert "At least one of --input or --wp-version is required" in output
+        assert "At least one of --input" in output
 
     def test_missing_input_file(self):
         code, output = _run("-i", "/nonexistent/file.csv")

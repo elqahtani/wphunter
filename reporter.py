@@ -11,6 +11,7 @@ from rich.panel import Panel
 from rich.text import Text
 
 from models import VulnResult
+from apis.token_tracker import TokenTracker
 
 
 SEVERITY_COLORS = {
@@ -175,3 +176,169 @@ def report_csv(vulns: List[VulnResult], input_file: str,
         print(f"[*] CSV written to {output_file}")
     else:
         print(csv_str)
+
+
+def report_judol_table(judol_result, console: Optional[Console] = None):
+    """Display judol detection results as a rich table."""
+    if console is None:
+        console = Console()
+
+    # Verdict panel
+    if judol_result.is_infected:
+        color = "bold red" if judol_result.severity in ("critical", "high") else "yellow"
+        verdict_text = (
+            f"[{color}]INFECTED — {judol_result.infection_type.upper()}[/{color}]\n"
+            f"Confidence: {judol_result.confidence}\n"
+            f"Severity: {judol_result.severity.upper()}"
+        )
+    else:
+        verdict_text = (
+            "[green]CLEAN[/green]\n"
+            f"Confidence: {judol_result.confidence}"
+        )
+
+    console.print(Panel(verdict_text, title="Judol Detection Result", border_style="cyan"))
+
+    # Cloaking results
+    if judol_result.cloaked_pages:
+        table = Table(title="Cloaked Pages", show_lines=True)
+        table.add_column("URL", style="cyan")
+        table.add_column("Size Ratio", justify="center")
+        table.add_column("Gambling Keywords", style="red")
+
+        for cp in judol_result.cloaked_pages:
+            table.add_row(
+                cp.url[:60],
+                f"{cp.size_ratio:.1f}x",
+                ", ".join(cp.gambling_keywords_in_diff[:5]),
+            )
+        console.print(table)
+
+    # Hidden elements
+    if judol_result.hidden_elements:
+        table = Table(title="Hidden Gambling Elements", show_lines=True)
+        table.add_column("Tag", style="dim")
+        table.add_column("Method", style="yellow")
+        table.add_column("Content", style="red")
+        table.add_column("Keywords")
+
+        for he in judol_result.hidden_elements[:10]:
+            table.add_row(
+                he.tag, he.hiding_method,
+                he.text_content[:50], ", ".join(he.gambling_keywords[:3]),
+            )
+        console.print(table)
+
+    # Suspicious links
+    if judol_result.suspicious_links:
+        table = Table(title="Suspicious Outbound Links", show_lines=True)
+        table.add_column("Domain", style="red")
+        table.add_column("Anchor Text")
+        table.add_column("Reason", style="yellow")
+
+        for sl in judol_result.suspicious_links[:15]:
+            table.add_row(sl.domain, sl.anchor_text[:40], sl.reason)
+        console.print(table)
+
+    # Top keywords
+    if judol_result.gambling_keywords_found:
+        top_kw = sorted(judol_result.gambling_keywords_found.items(),
+                       key=lambda x: x[1], reverse=True)[:10]
+        table = Table(title="Top Gambling Keywords Found", show_lines=True)
+        table.add_column("Keyword", style="red")
+        table.add_column("Count", justify="right")
+        for kw, count in top_kw:
+            table.add_row(kw, str(count))
+        console.print(table)
+
+    # Spam directories
+    if judol_result.spam_directories:
+        dirs_str = ", ".join(judol_result.spam_directories)
+        console.print(f"\n  [red]Spam directories:[/red] {dirs_str}")
+
+    # Suspicious scripts
+    if judol_result.suspicious_scripts:
+        console.print(f"\n  [red]Suspicious scripts:[/red] {len(judol_result.suspicious_scripts)} found")
+        for s in judol_result.suspicious_scripts[:5]:
+            console.print(f"    {s[:80]}")
+
+    console.print()
+
+
+def report_ai_analysis(ai_result: dict, console: Optional[Console] = None):
+    """Display AI analysis results."""
+    if console is None:
+        console = Console()
+
+    if not ai_result:
+        return
+
+    if "raw_analysis" in ai_result:
+        console.print(Panel(ai_result["raw_analysis"][:2000],
+                           title="AI Analysis", border_style="cyan"))
+        return
+
+    content_parts = []
+    if "executive_summary" in ai_result:
+        content_parts.append(f"[bold]Summary:[/bold] {ai_result['executive_summary']}")
+    if "executive_summary_id" in ai_result:
+        content_parts.append(f"[bold]Ringkasan:[/bold] {ai_result['executive_summary_id']}")
+    if "severity_assessment" in ai_result:
+        content_parts.append(f"\n[bold]Severity:[/bold] {ai_result['severity_assessment']}")
+    if "likely_infection_vector" in ai_result:
+        content_parts.append(f"[bold]Infection Vector:[/bold] {ai_result['likely_infection_vector']}")
+    if "remediation_steps" in ai_result:
+        content_parts.append("\n[bold]Remediation Steps:[/bold]")
+        for i, step in enumerate(ai_result["remediation_steps"], 1):
+            content_parts.append(f"  {i}. {step}")
+
+    if content_parts:
+        console.print(Panel("\n".join(content_parts),
+                           title="AI Analysis", border_style="cyan"))
+
+
+def print_token_usage(tracker: TokenTracker, console: Optional[Console] = None):
+    """Print token usage summary at the end of scan."""
+    if tracker.total_api_calls == 0:
+        return
+
+    if console is None:
+        console = Console()
+
+    breakdown = tracker.get_cost_breakdown()
+
+    # Build breakdown lines
+    breakdown_lines = []
+    for purpose, data in breakdown.items():
+        tokens = data["input_tokens"] + data["output_tokens"]
+        breakdown_lines.append(
+            f"  {purpose.replace('_', ' '):<20} {data['calls']} call(s)"
+            f"  {tokens:>8,} tok  ${data['cost']:.4f}"
+        )
+
+    if tracker.is_subscription:
+        billing = "Claude Pro/Max subscription"
+        cost_line = f"${tracker.total_cost:.4f} (covered by subscription)"
+    else:
+        billing = "pay-per-token (API key)"
+        cost_line = f"${tracker.total_cost:.4f}"
+
+    content = (
+        f"API Calls:      {tracker.total_api_calls}\n"
+        f"Input Tokens:   {tracker.total_input_tokens:,}\n"
+        f"Output Tokens:  {tracker.total_output_tokens:,}\n"
+        f"Total Tokens:   {tracker.total_tokens:,}\n"
+        f"\nBreakdown:\n"
+        + "\n".join(breakdown_lines) + "\n"
+        f"\nTotal Cost:     {cost_line}\n"
+        f"Billing:        {billing}"
+    )
+
+    if not tracker.is_subscription:
+        content += (
+            "\n\nUsing Claude Pro/Max? Run 'python scanner.py connect'\n"
+            "to use your subscription quota instead of pay-per-token."
+        )
+
+    console.print()
+    console.print(Panel(content, title="AI Token Usage", border_style="cyan", expand=False))
