@@ -1,9 +1,7 @@
 name,status,update,version,update_version,auto_update
 akismet,inactive,available,5.3.1,5.6,off
-all-in-one-seo-pack,active,available,4.2.0,4.9.5.1,off
 elementor,active,none,3.6.0,,off
 hello,inactive,none,1.7.2,,off
-jetpack,active,none,11.0,,off
-really-simple-ssl,active,none,6.0.0,,off
+really-simple-ssl,inactive,none,6.0.0,,off
 updraftplus,active,available,1.22.24,1.26.2,off
 woocommerce,active,none,6.0.0,,off

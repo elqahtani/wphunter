@@ -1,0 +1,358 @@
+{
+  "scan": {
+    "input_file": "http://localhost:8888",
+    "source": "wpvulndb",
+    "type": "wordpress"
+  },
+  "summary": {
+    "total": 1,
+    "critical": 0,
+    "high": 1,
+    "medium": 0,
+    "low": 0,
+    "unknown": 0
+  },
+  "vulnerabilities": [
+    {
+      "plugin": "wordpress-core",
+      "version": "6.4.3",
+      "cve_id": "CVE-2024-4439",
+      "cvss_score": 7.2,
+      "severity": "HIGH",
+      "summary": "6.4.3",
+      "fix_version": "",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-4439",
+      "source": "wpvulndb",
+      "references": [
+        "https://www.cve.org/CVERecord?id=CVE-2024-4439"
+      ]
+    }
+  ],
+  "judol": {
+    "target_url": "http://localhost:8888",
+    "scan_timestamp": "2026-03-20T12:31:34.835883",
+    "is_infected": true,
+    "confidence": "confirmed",
+    "infection_type": "judol",
+    "severity": "critical",
+    "serp": {
+      "total_gambling_results": 0,
+      "queries": [
+        {
+          "query": "site:localhost:8888 slot gacor",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+slot+gacor"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        },
+        {
+          "query": "site:localhost:8888 togel",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+togel"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        },
+        {
+          "query": "site:localhost:8888 judi online",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+judi+online"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        },
+        {
+          "query": "site:localhost:8888 casino online",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+casino+online"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        },
+        {
+          "query": "site:localhost:8888 sbobet",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+sbobet"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        },
+        {
+          "query": "site:localhost:8888 rtp live",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+rtp+live"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        },
+        {
+          "query": "site:localhost:8888 poker online",
+          "results": 0,
+          "urls": [
+            "https://www.google.com/search?q=site:localhost:8888+poker+online"
+          ],
+          "titles": [
+            "Manual check required"
+          ]
+        }
+      ]
+    },
+    "cloaking": {
+      "pages_checked": 4,
+      "cloaked_pages": []
+    },
+    "content": {
+      "gambling_keywords": {
+        "slot gacor": 24,
+        "slot88": 10,
+        "slot777": 2,
+        "togel": 33,
+        "togel hongkong": 11,
+        "togel singapore": 5,
+        "bandar togel": 5,
+        "judi online": 12,
+        "judi bola": 3,
+        "rtp slot": 2,
+        "maxwin": 9,
+        "deposit pulsa": 5,
+        "slot deposit": 5,
+        "daftar slot": 6,
+        "link alternatif": 2,
+        "judi slot": 2,
+        "pragmatic play": 3,
+        "slot online": 6,
+        "casino online": 3,
+        "poker online": 4,
+        "bandar": 7,
+        "gacor": 39,
+        "rtp": 6,
+        "deposit": 7,
+        "daftar": 9,
+        "togel sydney": 1,
+        "pg soft": 1,
+        "habanero slot": 1,
+        "withdraw": 1
+      },
+      "confidence_hits": {
+        "high": 155,
+        "medium": 8,
+        "low": 61
+      },
+      "hidden_elements": [
+        {
+          "tag": "div",
+          "method": "display:none",
+          "text": "Slot Gacor Hari Ini - Situs Judi Online Terpercaya 2024 Daftar slot gacor maxwin hari ini di situs judi online terpercaya. Main slot88 gacor dengan RTP tertinggi. Togel hongkong result tercepat. Judi ",
+          "keywords": [
+            "slot gacor",
+            "slot88",
+            "togel",
+            "togel hongkong",
+            "judi online",
+            "maxwin",
+            "deposit pulsa",
+            "slot deposit",
+            "daftar slot"
+          ]
+        },
+        {
+          "tag": "div",
+          "method": "font-size:0",
+          "text": "RTP slot gacor hari ini pragmatic play. Bocoran slot gacor malam ini. Situs togel terpercaya hadiah 4d 10 juta. Agen judi bola terpercaya. Slot777 gacor gampang menang. Togel singapore pools resmi.",
+          "keywords": [
+            "slot gacor",
+            "slot777",
+            "togel",
+            "togel singapore",
+            "judi bola",
+            "rtp slot",
+            "pragmatic play"
+          ]
+        },
+        {
+          "tag": "div",
+          "method": "z-index:-1",
+          "text": "Link alternatif slot gacor terbaru. Daftar akun slot gacor gratis. Prediksi togel hongkong malam ini. Judi slot online deposit pulsa. Situs slot gacor 2024 paling gampang menang maxwin x500.",
+          "keywords": [
+            "slot gacor",
+            "togel",
+            "togel hongkong",
+            "maxwin",
+            "deposit pulsa",
+            "link alternatif",
+            "judi slot",
+            "slot online"
+          ]
+        },
+        {
+          "tag": "div",
+          "method": "display:none",
+          "text": "Slot Gacor Hari Ini - Situs Judi Online Terpercaya 2024 Daftar slot gacor maxwin hari ini di situs judi online terpercaya. Main slot88 gacor dengan RTP tertinggi. Togel hongkong result tercepat. Judi ",
+          "keywords": [
+            "slot gacor",
+            "slot88",
+            "togel",
+            "togel hongkong",
+            "judi online",
+            "maxwin",
+            "deposit pulsa",
+            "slot deposit",
+            "daftar slot"
+          ]
+        },
+        {
+          "tag": "div",
+          "method": "font-size:0",
+          "text": "RTP slot gacor hari ini pragmatic play. Bocoran slot gacor malam ini. Situs togel terpercaya hadiah 4d 10 juta. Agen judi bola terpercaya. Slot777 gacor gampang menang. Togel singapore pools resmi.",
+          "keywords": [
+            "slot gacor",
+            "slot777",
+            "togel",
+            "togel singapore",
+            "judi bola",
+            "rtp slot",
+            "pragmatic play"
+          ]
+        },
+        {
+          "tag": "div",
+          "method": "z-index:-1",
+          "text": "Link alternatif slot gacor terbaru. Daftar akun slot gacor gratis. Prediksi togel hongkong malam ini. Judi slot online deposit pulsa. Situs slot gacor 2024 paling gampang menang maxwin x500.",
+          "keywords": [
+            "slot gacor",
+            "togel",
+            "togel hongkong",
+            "maxwin",
+            "deposit pulsa",
+            "link alternatif",
+            "judi slot",
+            "slot online"
+          ]
+        }
+      ],
+      "suspicious_links": [
+        {
+          "url": "http://slot88gacor.xyz",
+          "anchor": "Slot Gacor Maxwin",
+          "domain": "slot88gacor.xyz",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://togel-hongkong.top",
+          "anchor": "Togel Hongkong",
+          "domain": "togel-hongkong.top",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://judol-terpercaya.vip",
+          "anchor": "Judi Online Terpercaya",
+          "domain": "judol-terpercaya.vip",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://slotgacor-maxwin.com",
+          "anchor": "Daftar Slot Gacor",
+          "domain": "slotgacor-maxwin.com",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://bandar-togel88.net",
+          "anchor": "Bandar Togel Online",
+          "domain": "bandar-togel88.net",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://slot88gacor.xyz",
+          "anchor": "Slot Gacor Maxwin",
+          "domain": "slot88gacor.xyz",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://togel-hongkong.top",
+          "anchor": "Togel Hongkong",
+          "domain": "togel-hongkong.top",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://judol-terpercaya.vip",
+          "anchor": "Judi Online Terpercaya",
+          "domain": "judol-terpercaya.vip",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://slotgacor-maxwin.com",
+          "anchor": "Daftar Slot Gacor",
+          "domain": "slotgacor-maxwin.com",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://bandar-togel88.net",
+          "anchor": "Bandar Togel Online",
+          "domain": "bandar-togel88.net",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://pragmatic-slot.vip",
+          "anchor": "Pragmatic Play Slot Gacor",
+          "domain": "pragmatic-slot.vip",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://pg-soft-slot.top",
+          "anchor": "PG Soft Slot Terbaru",
+          "domain": "pg-soft-slot.top",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://habanero-slot.xyz",
+          "anchor": "Habanero Slot Online",
+          "domain": "habanero-slot.xyz",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://togel-hk-pools.net",
+          "anchor": "Togel Hongkong Pools",
+          "domain": "togel-hk-pools.net",
+          "reason": "gambling_domain"
+        },
+        {
+          "url": "http://togel-sgp-resmi.com",
+          "anchor": "Togel Singapore Resmi",
+          "domain": "togel-sgp-resmi.com",
+          "reason": "gambling_domain"
+        }
+      ],
+      "suspicious_scripts": [
+        "http://cdn-slot88gacor.xyz/inject.js",
+        "http://tracking-judol.top/pixel.js",
+        "http://cdn-slot88gacor.xyz/inject.js",
+        "http://tracking-judol.top/pixel.js"
+      ],
+      "spam_directories": [
+        "/docs/",
+        "/go/",
+        "/link/",
+        "/out/",
+        "/redirect/",
+        "/slot/",
+        "/judi/",
+        "/togel/",
+        "/casino/",
+        "/sbobet/"
+      ]
+    }
+  }
+}
