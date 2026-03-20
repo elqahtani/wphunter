@@ -685,15 +685,20 @@ If wphunter reports your site as INFECTED, follow these steps:
 
 ### AI Analysis Setup
 
-To use `--ai`, you need an Anthropic API key:
+To use `--ai`, you need an **Anthropic API key** (not an OAuth token):
 
 ```bash
-# Option 1: Environment variable
+# Option 1: Environment variable (recommended)
 export ANTHROPIC_API_KEY="sk-ant-api03-..."
 
 # Option 2: Interactive setup (saves to ~/.wphunter/auth.json)
 python scanner.py connect
+# -> Select option [1] and enter your API key
 ```
+
+Get a free API key at [console.anthropic.com](https://console.anthropic.com/).
+
+> **Note:** Claude Code OAuth tokens (`sk-ant-oat01-*`) are **not supported** by the Anthropic API yet. You must use an API key (`sk-ant-api03-*`).
 
 ### Docker Test Environment (Judol Simulation)
 
