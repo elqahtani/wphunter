@@ -700,21 +700,19 @@ python scanner.py connect
 python scanner.py connect
 ```
 
-Get an API key at [console.anthropic.com](https://console.anthropic.com/), or use your existing Claude Pro/Max subscription via OAuth token.
+**Two authentication paths:**
 
-**Model Selection:**
-
-| Auth Method | Default Model | Upgrade Available |
+| Auth Method | How It Works | Model |
 |---|---|---|
-| API Key (`sk-ant-api03-*`) | Claude Sonnet 4 | Use `--ai-model` to choose any model |
-| OAuth Token (direct API) | Claude Haiku 4.5 | Limited by Anthropic OAuth API |
-| OAuth + `claude-agent-sdk` | Claude Sonnet 4 | Full model access via subscription |
+| **API Key** (`sk-ant-api03-*`) | Direct Anthropic API calls | Claude Sonnet 4 (any model via `--ai-model`) |
+| **OAuth Token** (`sk-ant-oat01-*`) | Via Claude Agent SDK → Claude Code CLI | Claude Sonnet 4 (uses subscription quota) |
 
-To unlock sonnet/opus with your Claude Pro/Max subscription:
+Get an API key at [console.anthropic.com](https://console.anthropic.com/), or use your Claude Pro/Max subscription via OAuth.
+
+OAuth requires `claude-agent-sdk` (Python 3.10+):
 ```bash
-pip install claude-agent-sdk  # requires Python 3.10+
+pip install claude-agent-sdk
 ```
-wphunter auto-detects the SDK and routes OAuth requests through the Claude Code CLI, which supports all models.
 
 ### Docker Test Environment (Judol Simulation)
 

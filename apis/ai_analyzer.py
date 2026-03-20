@@ -12,7 +12,7 @@ import requests
 
 from auth import AuthCredential
 from apis.token_tracker import TokenTracker
-from config import AI_MODEL, AI_MODEL_OAUTH
+from config import AI_MODEL
 
 # Try to import claude-agent-sdk for subscription-based access
 _HAS_AGENT_SDK = False
@@ -32,20 +32,16 @@ class AIAnalyzer:
                  model: str = ""):
         self.credential = credential
         self.tracker = tracker
-        # Determine backend and model
-        self.use_sdk = (
-            _HAS_AGENT_SDK
-            and credential.auth_type == "oauth_token"
-            and not model  # user didn't force a specific model
-        )
-        if model:
-            self.model = model
-        elif self.use_sdk:
-            self.model = AI_MODEL  # SDK can use sonnet/opus via subscription
-        elif credential.auth_type == "oauth_token":
-            self.model = AI_MODEL_OAUTH  # direct API: OAuth limited to haiku
-        else:
-            self.model = AI_MODEL
+        # OAuth tokens use SDK backend (like pentestgpt)
+        # API keys use direct API calls
+        self.use_sdk = credential.auth_type == "oauth_token"
+        if self.use_sdk and not _HAS_AGENT_SDK:
+            raise RuntimeError(
+                "claude-agent-sdk is required for OAuth token AI analysis.\n"
+                "Install it with: pip install claude-agent-sdk\n"
+                "(Requires Python 3.10+)"
+            )
+        self.model = model or AI_MODEL
         self.tracker.is_subscription = credential.is_subscription
 
     def _call_sdk(self, messages: list, purpose: str,

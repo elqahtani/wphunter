@@ -24,7 +24,6 @@ GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID", "")
 
 # === Claude AI (optional, for --ai analysis) ===
 AI_MODEL = "claude-sonnet-4-20250514"
-AI_MODEL_OAUTH = "claude-haiku-4-5-20251001"  # OAuth tokens only support haiku
 
 # === Remote scan settings ===
 DEFAULT_USER_AGENT = "wphunter/1.0 (+https://github.com/elqahtani/wphunter)"
