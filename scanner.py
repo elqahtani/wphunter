@@ -99,6 +99,10 @@ Examples:
     parser.add_argument("--output", "-o", help="Write results to file")
     parser.add_argument("--no-enrich", action="store_true", help="Skip NVD CVSS enrichment")
     parser.add_argument("--no-banner", action="store_true", help="Skip banner")
+    parser.add_argument(
+        "--threads", default=1, type=int,
+        help="Number of concurrent API requests (default: 1)",
+    )
 
     args = parser.parse_args()
     console = Console(stderr=True)
@@ -143,10 +147,12 @@ Examples:
     vulns = []
     source_label = args.source
 
+    workers = max(1, args.threads)
+
     if args.source in ("wpscan", "both"):
         print("[*] --- WPScan API ---")
         if items:
-            wpscan_results = query_wpscan(items, component_type)
+            wpscan_results = query_wpscan(items, component_type, max_workers=workers)
             vulns.extend(wpscan_results)
             print(f"[*] WPScan ({component_label}): {len(wpscan_results)} vulnerabilities\n")
         if args.wp_version:
@@ -157,7 +163,7 @@ Examples:
     if args.source in ("wpvulndb", "both"):
         print("[*] --- WPVulnerability.net ---")
         if items:
-            wpvuln_results = query_wpvulndb(items, component_type)
+            wpvuln_results = query_wpvulndb(items, component_type, max_workers=workers)
             vulns.extend(wpvuln_results)
             print(f"[*] WPVulnerability.net ({component_label}): {len(wpvuln_results)} vulnerabilities\n")
         if args.wp_version:

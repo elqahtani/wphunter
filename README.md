@@ -34,6 +34,7 @@ I wanted to audit the plugins on my WordPress site — quickly check which ones 
 - **Multiple input formats** — simple CSV, `wp-cli` CSV output, or tab-separated
 - **Multiple output formats** — terminal table, JSON, or CSV
 - **NVD enrichment** — optionally fetches CVSS scores from NIST NVD for entries missing scores
+- **Concurrent requests** — parallel API calls with `--threads` for fast scanning of large lists
 - **API key rotation** — rotate multiple WPScan API keys to bypass the 25 req/day limit
 - **CI/CD friendly** — exits with code 1 when vulnerabilities are found
 
@@ -106,6 +107,9 @@ python scanner.py -i plugins.csv -f csv -o report.csv
 # Skip NVD enrichment (faster)
 python scanner.py -i plugins.csv --no-enrich
 
+# Parallel requests (faster for large lists)
+python scanner.py -i plugins.csv --threads 10
+
 # Quiet mode (no banner)
 python scanner.py -i plugins.csv --no-banner
 ```
@@ -122,6 +126,7 @@ python scanner.py -i plugins.csv --no-banner
 | `-o, --output` | *(stdout)* | Write results to file |
 | `--no-enrich` | `false` | Skip NVD CVSS enrichment |
 | `--no-banner` | `false` | Skip ASCII banner |
+| `--threads` | `1` | Number of concurrent API requests (e.g. `10` for large lists) |
 
 At least one of `--input` or `--wp-version` is required.
 

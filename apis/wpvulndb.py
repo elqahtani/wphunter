@@ -1,4 +1,5 @@
 import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Tuple
 
 from config import WPVULNDB_API_URL
@@ -15,51 +16,65 @@ _SEVERITY_MAP = {
 }
 
 
+def _fetch_one_wpvulndb(slug: str, version: str,
+                        component_type: str) -> List[VulnResult]:
+    """Fetch vulnerabilities for a single component from WPVulnerability.net."""
+    try:
+        resp = requests.get(
+            f"{WPVULNDB_API_URL}/{component_type}/{slug}/",
+            timeout=15,
+            headers={"Accept": "application/json"},
+        )
+
+        if resp.status_code == 404:
+            print(f"    [-] {slug}: not found")
+            return []
+
+        resp.raise_for_status()
+        data = resp.json()
+
+        if data.get("error") != 0:
+            print(f"    [!] {slug}: API error — {data.get('message', 'unknown')}")
+            return []
+
+        plugin_data = data.get("data", {})
+        vulns = plugin_data.get("vulnerability") or []
+        results = []
+
+        for vuln in vulns:
+            if not _is_affected(vuln, version):
+                continue
+            results.append(_parse_vuln(vuln, slug, version))
+
+        print(f"    [+] {slug}@{version}: {len(results)} vulns")
+        return results
+
+    except requests.RequestException as e:
+        print(f"    [!] {slug}: API error — {e}")
+        return []
+
+
 def query_wpvulndb(plugins: List[Tuple[str, str]],
-                    component_type: str = "plugin") -> List[VulnResult]:
+                    component_type: str = "plugin",
+                    max_workers: int = 1) -> List[VulnResult]:
     """Query WPVulnerability.net API (free, no API key needed).
 
     API: GET https://www.wpvulnerability.net/{component_type}/{slug}/
     Supports component_type: plugin, theme.
+    Uses ThreadPoolExecutor for concurrent requests when max_workers > 1.
     """
     print("[*] WPVulnerability.net: free API, no key required")
+    if max_workers > 1:
+        print(f"[*] Using {max_workers} concurrent threads")
 
     results = []
-    for slug, version in plugins:
-        try:
-            resp = requests.get(
-                f"{WPVULNDB_API_URL}/{component_type}/{slug}/",
-                timeout=15,
-                headers={"Accept": "application/json"},
-            )
-
-            if resp.status_code == 404:
-                print(f"    [-] {slug}: not found")
-                continue
-
-            resp.raise_for_status()
-            data = resp.json()
-
-            if data.get("error") != 0:
-                print(f"    [!] {slug}: API error — {data.get('message', 'unknown')}")
-                continue
-
-            plugin_data = data.get("data", {})
-            vulns = plugin_data.get("vulnerability") or []
-            found = 0
-
-            for vuln in vulns:
-                # Version check using operator logic
-                if not _is_affected(vuln, version):
-                    continue
-
-                found += 1
-                results.append(_parse_vuln(vuln, slug, version))
-
-            print(f"    [+] {slug}@{version}: {found} vulns")
-
-        except requests.RequestException as e:
-            print(f"    [!] {slug}: API error — {e}")
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(_fetch_one_wpvulndb, slug, version, component_type): slug
+            for slug, version in plugins
+        }
+        for future in as_completed(futures):
+            results.extend(future.result())
 
     return results
 

@@ -1,4 +1,6 @@
+import threading
 import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Tuple, Set
 
 from config import WPSCAN_API_URL, WPSCAN_API_KEYS
@@ -6,20 +8,22 @@ from models import VulnResult
 
 _exhausted_keys: Set[str] = set()
 _counter = 0
+_key_lock = threading.Lock()
 
 
 def _get_available_key() -> str:
-    """Round-robin key selection, skipping exhausted keys."""
+    """Round-robin key selection, skipping exhausted keys. Thread-safe."""
     global _counter
-    available = [k for k in WPSCAN_API_KEYS if k not in _exhausted_keys]
-    if not available:
-        _exhausted_keys.clear()
-        available = WPSCAN_API_KEYS
-    if not available:
-        return ""
-    key = available[_counter % len(available)]
-    _counter += 1
-    return key
+    with _key_lock:
+        available = [k for k in WPSCAN_API_KEYS if k not in _exhausted_keys]
+        if not available:
+            _exhausted_keys.clear()
+            available = WPSCAN_API_KEYS
+        if not available:
+            return ""
+        key = available[_counter % len(available)]
+        _counter += 1
+        return key
 
 
 def _request_with_retry(url: str) -> requests.Response:
@@ -86,12 +90,41 @@ def _parse_wpscan_vulns(vulns: list, package: str, version: str) -> List[VulnRes
     return results
 
 
+def _fetch_one_wpscan(slug: str, version: str,
+                      endpoint: str) -> List[VulnResult]:
+    """Fetch vulnerabilities for a single component from WPScan API."""
+    try:
+        resp = _request_with_retry(f"{WPSCAN_API_URL}/{endpoint}/{slug}")
+
+        if resp.status_code == 404:
+            print(f"    [-] {slug}: not found in WPScan")
+            return []
+
+        resp.raise_for_status()
+        data = resp.json()
+
+        item_data = data.get(slug, {})
+        vulns = item_data.get("vulnerabilities", [])
+        parsed = _parse_wpscan_vulns(vulns, slug, version)
+
+        print(f"    [+] {slug}@{version}: {len(parsed)} vulns")
+        return parsed
+
+    except RuntimeError:
+        raise
+    except requests.RequestException as e:
+        print(f"    [!] {slug}: API error — {e}")
+        return []
+
+
 def query_wpscan(plugins: List[Tuple[str, str]],
-                 component_type: str = "plugin") -> List[VulnResult]:
+                 component_type: str = "plugin",
+                 max_workers: int = 1) -> List[VulnResult]:
     """Query WPScan API v3 with key rotation.
 
     Free tier: 25 requests/day per key.
     Supports component_type: plugin, theme.
+    Uses ThreadPoolExecutor for concurrent requests when max_workers > 1.
     """
     if not WPSCAN_API_KEYS:
         print("[!] No WPSCAN_API_KEYS set.")
@@ -100,36 +133,26 @@ def query_wpscan(plugins: List[Tuple[str, str]],
         return []
 
     print(f"[*] WPScan: using {len(WPSCAN_API_KEYS)} API key(s)")
+    if max_workers > 1:
+        print(f"[*] Using {max_workers} concurrent threads")
 
     # WPScan uses plural: /plugins/{slug}, /themes/{slug}
     endpoint = f"{component_type}s"
 
     results = []
-    for slug, version in plugins:
-        try:
-            resp = _request_with_retry(f"{WPSCAN_API_URL}/{endpoint}/{slug}")
-
-            if resp.status_code == 404:
-                print(f"    [-] {slug}: not found in WPScan")
-                continue
-
-            resp.raise_for_status()
-            data = resp.json()
-
-            item_data = data.get(slug, {})
-            vulns = item_data.get("vulnerabilities", [])
-            parsed = _parse_wpscan_vulns(vulns, slug, version)
-            results.extend(parsed)
-
-            print(f"    [+] {slug}@{version}: {len(parsed)} vulns")
-
-        except RuntimeError as e:
-            if "exhausted" in str(e).lower():
-                print(f"[!] {e}")
-                break
-            continue
-        except requests.RequestException as e:
-            print(f"    [!] {slug}: API error — {e}")
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(_fetch_one_wpscan, slug, version, endpoint): slug
+            for slug, version in plugins
+        }
+        for future in as_completed(futures):
+            try:
+                results.extend(future.result())
+            except RuntimeError as e:
+                if "exhausted" in str(e).lower():
+                    print(f"[!] {e}")
+                    executor.shutdown(wait=False, cancel_futures=True)
+                    break
 
     return results
 
