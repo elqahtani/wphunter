@@ -33,6 +33,10 @@ GAMBLING_KEYWORDS = {
         "pg soft", "habanero slot", "bonus new member", "slot online",
         "casino online", "poker online", "dominoqq", "bandarqq",
         "pkv games", "slot dana", "slot gopay", "slot ovo",
+        # International gambling terms
+        "online casino", "live casino", "sports betting", "online gambling",
+        "vavada", "1xbet", "mostbet", "melbet", "pin-up casino",
+        "betway", "bet365", "stake casino",
     ],
     "medium": [
         "jackpot", "bonus deposit", "freebet", "freespin", "free spin",
@@ -46,11 +50,21 @@ GAMBLING_KEYWORDS = {
     ],
 }
 
+# Keywords specifically for URL/slug detection (broader than content keywords)
+GAMBLING_URL_KEYWORDS = [
+    "slot", "togel", "judi", "casino", "poker", "sbobet", "gambling",
+    "betting", "vavada", "1xbet", "mostbet", "melbet", "pin-up",
+    "gacor", "maxwin", "judol", "bandar", "toto", "kasyno",
+    "roulette", "blackjack", "baccarat",
+]
+
 GAMBLING_DOMAIN_PATTERNS = [
     re.compile(p, re.IGNORECASE) for p in [
         r"slot\d*", r"togel", r"judi", r"casino", r"poker",
         r"sbobet", r"gacor", r"bet\d+", r"judol",
         r"pragmatic", r"maxwin", r"toto\d*", r"bandar",
+        r"vavada", r"1xbet", r"mostbet", r"melbet", r"pin-?up",
+        r"kasyno", r"gambling", r"roulette", r"baccarat",
     ]
 ]
 
@@ -562,7 +576,15 @@ class JudolDetector:
 
         # Extract all URLs from sitemap (handle both sitemap index and urlset)
         url_pattern = re.compile(r'<loc>(.*?)</loc>', re.IGNORECASE)
-        all_urls = [m.group(1) for m in url_pattern.finditer(sitemap)]
+        all_urls = []
+        for m in url_pattern.finditer(sitemap):
+            url = m.group(1).strip()
+            # Strip CDATA wrapper if present
+            if url.startswith('<![CDATA['):
+                url = url[9:]
+            if url.endswith(']]>'):
+                url = url[:-3]
+            all_urls.append(url.strip())
 
         # If this is a sitemap index, fetch child sitemaps
         if '<sitemapindex' in sitemap.lower():
@@ -570,9 +592,13 @@ class JudolDetector:
             for sitemap_url in all_urls[:5]:  # Max 5 child sitemaps
                 child_xml = self._fetch_as_human(sitemap_url)
                 if child_xml:
-                    child_urls.extend(
-                        m.group(1) for m in url_pattern.finditer(child_xml)
-                    )
+                    for m in url_pattern.finditer(child_xml):
+                        u = m.group(1).strip()
+                        if u.startswith('<![CDATA['):
+                            u = u[9:]
+                        if u.endswith(']]>'):
+                            u = u[:-3]
+                        child_urls.append(u.strip())
             all_urls = child_urls
 
         if not all_urls:
@@ -580,16 +606,19 @@ class JudolDetector:
 
         print(f"    [*] Found {len(all_urls)} URLs in sitemap")
 
-        # Phase 1: Check URLs for gambling keywords in path
+        # Phase 1: Check ALL URLs for gambling keywords in path/slug
+        # Use word boundary matching to avoid false positives (e.g. "judith" ≠ "judi")
         gambling_urls = []
         clean_urls = []
+        gambling_url_patterns = [
+            re.compile(r'(?:^|[-_/])' + re.escape(kw) + r'(?:[-_/\d]|$)', re.IGNORECASE)
+            for kw in GAMBLING_URL_KEYWORDS
+        ]
         for url in all_urls:
-            url_lower = url.lower()
+            path_lower = urlparse(url).path.lower()
             is_gambling = False
-            for kw in GAMBLING_KEYWORDS["high"][:15]:
-                slug = kw.lower().replace(" ", "-")
-                slug_no_space = kw.lower().replace(" ", "")
-                if slug in url_lower or slug_no_space in url_lower:
+            for pat in gambling_url_patterns:
+                if pat.search(path_lower):
                     gambling_urls.append(url)
                     is_gambling = True
                     break
@@ -599,12 +628,30 @@ class JudolDetector:
         if gambling_urls:
             result.spam_directories.append(f"sitemap:{len(gambling_urls)}_gambling_urls")
             print(f"    [!] Sitemap contains {len(gambling_urls)} gambling-related URLs")
-            for url in gambling_urls[:5]:
+            for url in gambling_urls[:10]:
                 print(f"        {url}")
 
-        # Phase 2: Crawl sample pages and analyze content
-        # Sample: up to 10 clean-looking pages (gambling in clean pages = hidden injection)
-        pages_to_check = clean_urls[:10]
+        # Phase 2: Crawl gambling URLs for evidence
+        gambling_to_crawl = gambling_urls[:5]
+        if gambling_to_crawl:
+            print(f"    [*] Crawling {len(gambling_to_crawl)} gambling URLs for content analysis...")
+            for page_url in gambling_to_crawl:
+                html = self._fetch_as_human(page_url)
+                if html:
+                    self._analyze_content(html, page_url, result)
+                    print(f"    [!] Analyzed gambling page: {page_url}")
+                if self.delay_s:
+                    time.sleep(self.delay_s)
+
+        # Phase 3: Crawl sample of clean-looking pages for hidden injection
+        # Spread sampling across sitemap: start, middle, end
+        sample_size = min(20, len(clean_urls))
+        if sample_size > 0 and len(clean_urls) > sample_size:
+            step = max(1, len(clean_urls) // sample_size)
+            pages_to_check = [clean_urls[i] for i in range(0, len(clean_urls), step)][:sample_size]
+        else:
+            pages_to_check = clean_urls[:sample_size]
+
         if pages_to_check:
             print(f"    [*] Crawling {len(pages_to_check)} pages for hidden gambling content...")
             infected_pages = 0
@@ -620,7 +667,6 @@ class JudolDetector:
                 )
                 if page_high_hits >= 3:
                     infected_pages += 1
-                    # Analyze the page fully
                     self._analyze_content(html, page_url, result)
                     print(f"    [!] Infected page: {page_url} ({page_high_hits} keywords)")
 
