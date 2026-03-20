@@ -215,8 +215,13 @@ Examples:
             console.print("[yellow]    Run: python scanner.py connect[/yellow]")
             sys.exit(1)
         if ai_cred.auth_type == "oauth_token":
-            from config import AI_MODEL_OAUTH
-            console.print(f"[dim][*] OAuth token detected — using {AI_MODEL_OAUTH} for AI analysis[/dim]")
+            from apis.ai_analyzer import _HAS_AGENT_SDK
+            if _HAS_AGENT_SDK:
+                console.print(f"[dim][*] OAuth + Claude Agent SDK detected — using {AI_MODEL} for AI analysis[/dim]")
+            else:
+                from config import AI_MODEL_OAUTH
+                console.print(f"[dim][*] OAuth token detected — using {AI_MODEL_OAUTH} for AI analysis[/dim]")
+                console.print("[dim]    Tip: pip install claude-agent-sdk to unlock sonnet/opus models[/dim]")
 
     # ── Remote scanning ──────────────────────────────────────────────────
     if args.url:

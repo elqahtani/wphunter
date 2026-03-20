@@ -2,3 +2,6 @@ requests>=2.28.0
 rich>=13.0.0
 beautifulsoup4>=4.12
 lxml>=5.0
+
+# Optional: install for sonnet/opus models with OAuth subscription
+# claude-agent-sdk>=0.1.0  # requires Python 3.10+

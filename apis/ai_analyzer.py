@@ -1,6 +1,9 @@
 """AI-powered analysis of scan results using Claude API.
 
-Requires authentication via auth.py (API key or OAuth token).
+Supports two backends:
+  1. Direct API (requests) — works with API keys and OAuth tokens (haiku only)
+  2. Claude Agent SDK — works with Claude Code subscription (sonnet/opus)
+     Auto-detected when claude-agent-sdk is installed and user has OAuth auth.
 """
 import json
 from typing import Optional, List
@@ -11,6 +14,16 @@ from auth import AuthCredential
 from apis.token_tracker import TokenTracker
 from config import AI_MODEL, AI_MODEL_OAUTH
 
+# Try to import claude-agent-sdk for subscription-based access
+_HAS_AGENT_SDK = False
+try:
+    import asyncio
+    from claude_agent_sdk import query as sdk_query, ClaudeAgentOptions
+    from claude_agent_sdk import AssistantMessage, TextBlock, ResultMessage
+    _HAS_AGENT_SDK = True
+except ImportError:
+    pass
+
 
 class AIAnalyzer:
     """Analyze scan findings using Claude API."""
@@ -19,17 +32,69 @@ class AIAnalyzer:
                  model: str = ""):
         self.credential = credential
         self.tracker = tracker
+        # Determine backend and model
+        self.use_sdk = (
+            _HAS_AGENT_SDK
+            and credential.auth_type == "oauth_token"
+            and not model  # user didn't force a specific model
+        )
         if model:
             self.model = model
+        elif self.use_sdk:
+            self.model = AI_MODEL  # SDK can use sonnet/opus via subscription
         elif credential.auth_type == "oauth_token":
-            self.model = AI_MODEL_OAUTH
+            self.model = AI_MODEL_OAUTH  # direct API: OAuth limited to haiku
         else:
             self.model = AI_MODEL
         self.tracker.is_subscription = credential.is_subscription
 
+    def _call_sdk(self, messages: list, purpose: str,
+                  system: str = "") -> Optional[dict]:
+        """Call Claude via Agent SDK (subprocess through Claude Code CLI)."""
+        user_content = messages[0]["content"] if messages else ""
+
+        options = ClaudeAgentOptions(
+            model=self.model,
+            system_prompt=system or None,
+            max_turns=1,
+        )
+
+        collected_text = []
+        usage_data = {}
+
+        async def _run():
+            async for message in sdk_query(prompt=user_content, options=options):
+                if isinstance(message, AssistantMessage):
+                    for block in message.content:
+                        if isinstance(block, TextBlock):
+                            collected_text.append(block.text)
+                elif isinstance(message, ResultMessage):
+                    if hasattr(message, "usage") and message.usage:
+                        usage_data.update(message.usage)
+
+        asyncio.run(_run())
+
+        if not collected_text:
+            return None
+
+        full_text = "".join(collected_text)
+        result = {
+            "content": [{"type": "text", "text": full_text}],
+            "usage": usage_data,
+        }
+        self.tracker.record(
+            model=self.model,
+            purpose=purpose,
+            usage=usage_data,
+        )
+        return result
+
     def _call_api(self, messages: list, purpose: str,
                   system: str = "") -> Optional[dict]:
         """Make Claude API call and record token usage."""
+        if self.use_sdk:
+            return self._call_sdk(messages, purpose, system)
+
         body = {
             "model": self.model,
             "max_tokens": 4096,

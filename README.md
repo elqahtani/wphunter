@@ -702,6 +702,20 @@ python scanner.py connect
 
 Get an API key at [console.anthropic.com](https://console.anthropic.com/), or use your existing Claude Pro/Max subscription via OAuth token.
 
+**Model Selection:**
+
+| Auth Method | Default Model | Upgrade Available |
+|---|---|---|
+| API Key (`sk-ant-api03-*`) | Claude Sonnet 4 | Use `--ai-model` to choose any model |
+| OAuth Token (direct API) | Claude Haiku 4.5 | Limited by Anthropic OAuth API |
+| OAuth + `claude-agent-sdk` | Claude Sonnet 4 | Full model access via subscription |
+
+To unlock sonnet/opus with your Claude Pro/Max subscription:
+```bash
+pip install claude-agent-sdk  # requires Python 3.10+
+```
+wphunter auto-detects the SDK and routes OAuth requests through the Claude Code CLI, which supports all models.
+
 ### Docker Test Environment (Judol Simulation)
 
 The `docker-test/` directory includes a test malware file (`judol-infection.php`) that simulates a real judol attack for testing purposes. See `docker-test/test-commands.sh` for the full test procedure.
