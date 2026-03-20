@@ -2,7 +2,7 @@
 
 A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities and detect **judol (gambling spam) injection** — works both offline (from exported lists) and remotely (from a URL).
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![CI](https://github.com/elqahtani/wphunter/actions/workflows/ci.yml/badge.svg)](https://github.com/elqahtani/wphunter/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -520,7 +520,7 @@ wphunter/
 ├── models.py               # VulnResult dataclass
 ├── reporter.py             # Output: table, JSON, CSV, judol reports
 ├── auth.py                 # Authentication system (API key, OAuth)
-├── requirements.txt        # requests, rich, beautifulsoup4, lxml
+├── requirements.txt        # requests, rich, beautifulsoup4, lxml, claude-agent-sdk
 ├── .env.example            # Environment variable template
 ├── apis/
 │   ├── wpscan.py           # WPScan API v3 client
@@ -538,7 +538,7 @@ wphunter/
 ├── docker-test/            # Docker WordPress for testing
 │   └── docker-compose.yml
 └── .github/workflows/
-    └── ci.yml              # GitHub Actions CI (Python 3.9-3.12)
+    └── ci.yml              # GitHub Actions CI (Python 3.10-3.13)
 ```
 
 ## Docker Test Environment
@@ -707,12 +707,7 @@ python scanner.py connect
 | **API Key** (`sk-ant-api03-*`) | Direct Anthropic API calls | Claude Sonnet 4 (any model via `--ai-model`) |
 | **OAuth Token** (`sk-ant-oat01-*`) | Via Claude Agent SDK → Claude Code CLI | Claude Sonnet 4 (uses subscription quota) |
 
-Get an API key at [console.anthropic.com](https://console.anthropic.com/), or use your Claude Pro/Max subscription via OAuth.
-
-OAuth requires `claude-agent-sdk` (Python 3.10+):
-```bash
-pip install claude-agent-sdk
-```
+Get an API key at [console.anthropic.com](https://console.anthropic.com/), or use your Claude Pro/Max subscription via OAuth. Both paths are included in `requirements.txt`.
 
 ### Docker Test Environment (Judol Simulation)
 
@@ -729,11 +724,12 @@ The `docker-test/` directory includes a test malware file (`judol-infection.php`
 
 ## Requirements
 
-- Python 3.9+
+- Python 3.10+
 - `requests` >= 2.28.0
 - `rich` >= 13.0.0
 - `beautifulsoup4` >= 4.12 (for HTML parsing)
 - `lxml` >= 5.0 (for fast HTML parsing)
+- `claude-agent-sdk` >= 0.1.0 (for AI analysis via Claude Code subscription)
 
 ## Related
 
