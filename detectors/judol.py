@@ -37,6 +37,9 @@ GAMBLING_KEYWORDS = {
         "online casino", "live casino", "sports betting", "online gambling",
         "vavada", "1xbet", "mostbet", "melbet", "pin-up casino",
         "betway", "bet365", "stake casino",
+        # Multilingual gambling keywords
+        "kasyno", "kasino", "ruletka",  # Polish
+
     ],
     "medium": [
         "jackpot", "bonus deposit", "freebet", "freespin", "free spin",
@@ -265,8 +268,7 @@ class JudolDetector:
         if GOOGLE_CSE_API_KEY and GOOGLE_CSE_ID:
             self._check_serp_api(domain, result)
         else:
-            print("    [*] No Google CSE API key set — generating manual search URLs")
-            print("    [*] Set GOOGLE_CSE_API_KEY and GOOGLE_CSE_ID for automated SERP check")
+            print("    [*] Skipped (no Google CSE API key) — generating manual search URLs")
             for query in SERP_QUERIES:
                 full_query = f"site:{domain} {query}"
                 search_url = f"https://www.google.com/search?q={full_query.replace(' ', '+')}"
@@ -631,52 +633,43 @@ class JudolDetector:
             for url in gambling_urls[:10]:
                 print(f"        {url}")
 
-        # Phase 2: Crawl gambling URLs for evidence
-        gambling_to_crawl = gambling_urls[:5]
-        if gambling_to_crawl:
-            print(f"    [*] Crawling {len(gambling_to_crawl)} gambling URLs for content analysis...")
-            for page_url in gambling_to_crawl:
-                html = self._fetch_as_human(page_url)
-                if html:
-                    self._analyze_content(html, page_url, result)
-                    print(f"    [!] Analyzed gambling page: {page_url}")
-                if self.delay_s:
-                    time.sleep(self.delay_s)
+        # Phase 2: Crawl ALL pages from sitemap
+        gambling_url_set = set(gambling_urls)
+        all_pages = gambling_urls + clean_urls
+        total = len(all_pages)
+        print(f"    [*] Crawling all {total} pages from sitemap...")
+        infected_pages = 0
+        crawled = 0
+        for page_url in all_pages:
+            crawled += 1
+            html = self._fetch_as_human(page_url)
+            if not html:
+                continue
 
-        # Phase 3: Crawl sample of clean-looking pages for hidden injection
-        # Spread sampling across sitemap: start, middle, end
-        sample_size = min(20, len(clean_urls))
-        if sample_size > 0 and len(clean_urls) > sample_size:
-            step = max(1, len(clean_urls) // sample_size)
-            pages_to_check = [clean_urls[i] for i in range(0, len(clean_urls), step)][:sample_size]
+            # Keyword scan on page content
+            text_lower = html.lower()
+            page_high_hits = sum(
+                1 for kw in GAMBLING_KEYWORDS["high"]
+                if kw.lower() in text_lower
+            )
+            # Lower threshold for pages already flagged by URL pattern
+            threshold = 1 if page_url in gambling_url_set else 3
+            if page_high_hits >= threshold:
+                infected_pages += 1
+                self._analyze_content(html, page_url, result)
+                print(f"    [!] Infected page ({crawled}/{total}): {page_url} ({page_high_hits} keywords)")
+
+            # Progress update every 25 pages
+            if crawled % 25 == 0:
+                print(f"    [*] Progress: {crawled}/{total} pages crawled, {infected_pages} infected")
+
+            if self.delay_s:
+                time.sleep(self.delay_s)
+
+        if infected_pages:
+            print(f"    [!] {infected_pages}/{total} pages contain gambling content")
         else:
-            pages_to_check = clean_urls[:sample_size]
-
-        if pages_to_check:
-            print(f"    [*] Crawling {len(pages_to_check)} pages for hidden gambling content...")
-            infected_pages = 0
-            for page_url in pages_to_check:
-                html = self._fetch_as_human(page_url)
-                if not html:
-                    continue
-                # Quick keyword scan on page content
-                text_lower = html.lower()
-                page_high_hits = sum(
-                    1 for kw in GAMBLING_KEYWORDS["high"]
-                    if kw.lower() in text_lower
-                )
-                if page_high_hits >= 3:
-                    infected_pages += 1
-                    self._analyze_content(html, page_url, result)
-                    print(f"    [!] Infected page: {page_url} ({page_high_hits} keywords)")
-
-                if self.delay_s:
-                    time.sleep(self.delay_s)
-
-            if infected_pages:
-                print(f"    [!] {infected_pages}/{len(pages_to_check)} crawled pages contain gambling content")
-            else:
-                print(f"    [+] {len(pages_to_check)} crawled pages are clean")
+            print(f"    [+] All {total} crawled pages are clean")
 
     # ── Verdict ──────────────────────────────────────────────────────────
 
