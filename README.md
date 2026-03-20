@@ -1,8 +1,9 @@
 # wphunter
 
-A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities **without accessing the live site**. Just export your plugin/theme list with `wp-cli` and scan it offline.
+A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities and detect **judol (gambling spam) injection** — works both offline (from exported lists) and remotely (from a URL).
 
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/elqahtani/wphunter/actions/workflows/ci.yml/badge.svg)](https://github.com/elqahtani/wphunter/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center">
@@ -25,18 +26,30 @@ I wanted to audit the plugins on my WordPress site — quickly check which ones 
 
 ## Features
 
+### Vulnerability Scanning
 - **Offline scanning** — no access to your WordPress site required, just the plugin/theme list
+- **Remote scanning** — scan a live WordPress site by URL with automatic fingerprinting
 - **Plugins, themes & core** — scan all three WordPress component types for known CVEs
 - **Multiple vulnerability sources** — WPScan API, WPVulnerability.net, or both combined
 - **Free by default** — WPVulnerability.net requires no API key and aggregates 6 databases (CVE, WPScan, Wordfence, Patchstack, EUVD, JVN)
 - **Smart deduplication** — when using both sources, duplicates are merged keeping the richest data
 - **Version-aware matching** — only reports vulnerabilities that affect your installed version
+
+### Judol (Gambling Spam) Detection
+- **Gambling injection detection** — detect hidden Indonesian gambling spam (judol) injected into WordPress sites
+- **Cloaking detection** — compare Googlebot vs human responses to detect SEO cloaking
+- **Hidden element analysis** — find CSS-hidden gambling content (display:none, position:absolute, font-size:0)
+- **Suspicious link/script detection** — identify gambling domains and external scripts
+- **AI-powered analysis** — optional Claude AI analysis for deeper insights
+
+### General
 - **Multiple input formats** — simple CSV, `wp-cli` CSV output, or tab-separated
 - **Multiple output formats** — terminal table, JSON, or CSV
 - **NVD enrichment** — optionally fetches CVSS scores from NIST NVD for entries missing scores
 - **Concurrent requests** — parallel API calls with `--threads` for fast scanning of large lists
 - **API key rotation** — rotate multiple WPScan API keys to bypass the 25 req/day limit
-- **CI/CD friendly** — exits with code 1 when vulnerabilities are found
+- **Severity filtering** — `--min-severity` flag for CI/CD pipelines
+- **CI/CD friendly** — exits with code 1 when vulnerabilities are found, code 2 for judol infection
 
 ## Quick Start
 
@@ -55,6 +68,19 @@ python scanner.py -i plugins.csv
 ```
 
 That's it. This uses WPVulnerability.net which is completely free.
+
+### Remote Scan (from URL)
+
+```bash
+# Scan a live WordPress site
+python scanner.py --url https://example.com
+
+# With judol detection
+python scanner.py --url https://example.com --detect-judol
+
+# Aggressive plugin enumeration + judol + AI analysis
+python scanner.py --url https://example.com --aggressive --detect-judol --ai
+```
 
 ### Get Your Plugin/Theme List & Core Version
 
@@ -75,6 +101,8 @@ wp core version
 Transfer the CSV files to your machine (scp, rsync, copy-paste). Then scan.
 
 ## Usage
+
+### Offline Scanning (from exported lists)
 
 ```bash
 # Scan plugins with free source (default)
@@ -112,9 +140,41 @@ python scanner.py -i plugins.csv --threads 10
 
 # Only critical + high (CI/CD: fail build on serious vulns only)
 python scanner.py -i plugins.csv --min-severity high
+```
 
-# Quiet mode (no banner)
-python scanner.py -i plugins.csv --no-banner
+### Remote Scanning (from URL)
+
+```bash
+# Fingerprint a WordPress site and scan detected plugins/themes
+python scanner.py --url https://example.com
+
+# Aggressive mode: brute-force top 100 plugins
+python scanner.py --url https://example.com --aggressive
+
+# Add judol (gambling spam) detection
+python scanner.py --url https://example.com --detect-judol
+
+# Full scan: aggressive + judol + AI analysis
+python scanner.py --url https://example.com --aggressive --detect-judol --ai
+
+# Custom delay between requests (ms)
+python scanner.py --url https://example.com --aggressive --delay 200
+
+# Skip confirmation prompt
+python scanner.py --url https://example.com --yes
+```
+
+### Authentication (for AI analysis)
+
+```bash
+# Connect with Anthropic API key
+python scanner.py connect
+
+# Check auth status
+python scanner.py auth-status
+
+# Disconnect
+python scanner.py disconnect
 ```
 
 ### CLI Options
@@ -122,17 +182,32 @@ python scanner.py -i plugins.csv --no-banner
 | Flag | Default | Description |
 |------|---------|-------------|
 | `-i, --input` | — | Plugin/theme list file path |
-| `-t, --type` | `plugin` | Component type for input file: `plugin` or `theme` |
+| `-t, --type` | `plugin` | Component type: `plugin` or `theme` |
 | `--wp-version` | — | WordPress core version to scan (e.g. `6.4.3`) |
+| `--url` | — | WordPress site URL for remote scanning |
 | `-s, --source` | `wpvulndb` | Vulnerability source: `wpscan`, `wpvulndb`, or `both` |
 | `-f, --format` | `table` | Output format: `table`, `json`, or `csv` |
 | `-o, --output` | *(stdout)* | Write results to file |
 | `--no-enrich` | `false` | Skip NVD CVSS enrichment |
 | `--no-banner` | `false` | Skip ASCII banner |
-| `--threads` | `1` | Number of concurrent API requests (e.g. `10` for large lists) |
-| `--min-severity` | — | Minimum severity to report: `critical`, `high`, `medium`, or `low` |
+| `--threads` | `1` | Number of concurrent API requests |
+| `--min-severity` | — | Minimum severity: `critical`, `high`, `medium`, or `low` |
+| `--aggressive` | `false` | Aggressive plugin enumeration (remote scan) |
+| `--delay` | `100` | Delay between requests in ms (remote scan) |
+| `--detect-judol` | `false` | Enable judol (gambling spam) detection |
+| `--ai` | `false` | Enable AI-powered analysis (requires auth) |
+| `--ai-model` | `claude-sonnet-4-20250514` | Claude model for AI analysis |
+| `--yes` | `false` | Skip confirmation prompts |
 
-At least one of `--input` or `--wp-version` is required.
+At least one of `--input`, `--wp-version`, or `--url` is required.
+
+### Subcommands
+
+| Command | Description |
+|---------|-------------|
+| `connect` | Set up Anthropic API authentication |
+| `auth-status` | Show current authentication status |
+| `disconnect` | Remove saved credentials |
 
 ## Input Formats
 
@@ -346,8 +421,9 @@ Opens in any spreadsheet application. References are semicolon-separated within 
 
 | Code | Meaning |
 |:----:|---------|
-| `0` | No vulnerabilities found |
+| `0` | Clean — no vulnerabilities or infections found |
 | `1` | Vulnerabilities found |
+| `2` | Judol (gambling spam) infection detected |
 
 Use this in CI/CD pipelines to fail builds when vulnerable plugins are detected. Combine with `--min-severity high` to only fail on critical and high severity vulnerabilities.
 
@@ -364,6 +440,8 @@ Based on CVSS v3 scores:
 | Unknown | No score | `? ?` |
 
 ## How It Works
+
+### Mode 1: Offline (from exported lists)
 
 ```
   [WordPress Server]              [Your Machine]
@@ -384,29 +462,36 @@ Based on CVSS v3 scores:
             +----------------+       +-----------------+
             | WPVulnerability|       |   WPScan API    |
             | .net (FREE)    |       |   (API key)     |
-            | 6 databases    |       |   curated DB    |
             +-------+--------+       +--------+--------+
                     |                          |
-                    +--------+  +-------------+
-                             |  |
-                             v  v
-                     +-----------------+
-                     |  Deduplicate    |
-                     |  + NVD Enrich   |
-                     +--------+--------+
-                              |
-                    +---------+---------+
-                    |         |         |
-                    v         v         v
-                 [Table]   [JSON]    [CSV]
+                    v                          v
+              [Deduplicate + NVD Enrich] --> [Table/JSON/CSV]
 ```
 
-1. **Export** your plugin/theme list and core version with `wp-cli`
-2. **Transfer** the CSV files to your local machine
-3. **Scan** — the tool queries vulnerability APIs for each component+version
-4. **Review** — results in terminal table, JSON, or CSV
+### Mode 2: Remote (from URL)
 
-The tool never touches your WordPress site. It only needs the exported lists.
+```
+  [Target WordPress Site]          [Your Machine]
+        |                              |
+        |  <--- HTTP requests ---  scanner.py --url
+        |                              |
+        v                              v
+  +--------------+            +------------------+
+  | HTML source  | --------> | Remote Scanner   |
+  | REST API     |            | (fingerprint)    |
+  | readme.txt   |            +--------+---------+
+  +--------------+                     |
+                              +--------+--------+
+                              |                 |
+                              v                 v
+                     +-----------------+  +-------------+
+                     | Vuln Scanning   |  | Judol       |
+                     | (same as above) |  | Detection   |
+                     +--------+--------+  +------+------+
+                              |                  |
+                              v                  v
+                     [Combined Report: vulns + judol + AI]
+```
 
 ### Full Site Audit Example
 
@@ -433,19 +518,27 @@ wphunter/
 ├── scanner.py              # CLI entry point
 ├── config.py               # API keys, URLs, rate limits
 ├── models.py               # VulnResult dataclass
-├── reporter.py             # Output: table, JSON, CSV
-├── requirements.txt        # requests, rich
+├── reporter.py             # Output: table, JSON, CSV, judol reports
+├── auth.py                 # Authentication system (API key, OAuth)
+├── requirements.txt        # requests, rich, beautifulsoup4, lxml
 ├── .env.example            # Environment variable template
 ├── apis/
 │   ├── wpscan.py           # WPScan API v3 client
 │   ├── wpvulndb.py         # WPVulnerability.net client
-│   └── nvd.py              # NVD CVSS enrichment
+│   ├── nvd.py              # NVD CVSS enrichment
+│   ├── ai_analyzer.py      # Claude AI analysis
+│   └── token_tracker.py    # API token usage & cost tracking
 ├── parsers/
-│   └── wordpress.py        # Plugin/theme list parser (3 formats)
+│   ├── wordpress.py        # Plugin/theme list parser (3 formats)
+│   └── remote.py           # Remote WordPress fingerprinting
+├── detectors/
+│   └── judol.py            # Judol (gambling spam) injection detector
+├── tests/                  # pytest test suite (111 tests)
+├── test_fixtures/          # HTML fixtures for testing
 ├── docker-test/            # Docker WordPress for testing
 │   └── docker-compose.yml
-└── test_fixtures/
-    └── plugins.txt         # Sample plugin list
+└── .github/workflows/
+    └── ci.yml              # GitHub Actions CI (Python 3.9-3.12)
 ```
 
 ## Docker Test Environment
@@ -483,18 +576,145 @@ python scanner.py -i docker-test/live-plugins.csv --wp-version $WP_VER --source 
 python scanner.py -i docker-test/live-themes.csv --type theme --source both
 ```
 
+## Judol Detection
+
+> **What is Judol?** "Judol" (judi online) is a massive attack campaign targeting WordPress sites, especially in Indonesia and Southeast Asia. Attackers compromise WordPress sites and inject **hidden gambling spam content** to manipulate search engine rankings. The site owner often doesn't notice because the gambling content is invisible to human visitors — it only appears to search engine crawlers (Googlebot).
+
+### What This Tool Detects
+
+wphunter's `--detect-judol` flag checks whether a WordPress site **has already been infected** with gambling spam injection. It does NOT prevent attacks — it detects existing infections so you can clean them up.
+
+The detection works across **all pages** via WordPress sitemap crawling, not just the homepage.
+
+### Detection Layers
+
+| Layer | What it checks | How |
+|-------|---------------|-----|
+| **1. SERP Check** | Are gambling pages indexed on Google? | Queries Google CSE API or generates manual search URLs |
+| **2. Cloaking** | Does the site serve different content to Googlebot? | Compares responses with human vs Googlebot User-Agent |
+| **3. Content Analysis** | Is there hidden gambling content in pages? | Scans for keywords, hidden CSS elements, suspicious links |
+| **4. Sitemap Crawl** | Are individual pages infected? | Fetches sitemap.xml/wp-sitemap.xml, crawls pages, analyzes each |
+| **5. Spam Directories** | Did attackers create gambling directories? | HEAD requests to common spam paths (/slot/, /togel/, /casino/, etc.) |
+| **6. AI Analysis** | Deeper contextual analysis (optional) | Sends findings to Claude API for expert-level assessment |
+
+### Usage
+
+```bash
+# Basic judol scan
+python scanner.py --url https://example.com --detect-judol
+
+# With AI analysis
+python scanner.py --url https://example.com --detect-judol --ai
+
+# Full scan: vuln + judol + aggressive fingerprint
+python scanner.py --url https://example.com --aggressive --detect-judol
+
+# JSON output for integration
+python scanner.py --url https://example.com --detect-judol -f json -o report.json
+```
+
+### Attack Vectors (How Sites Get Infected)
+
+wphunter also helps identify **how** the attacker likely got in by scanning for known CVEs in your plugins, themes, and WordPress core. Common attack vectors for judol injection:
+
+| Attack Vector | Example | wphunter detects? |
+|---------------|---------|:-----------------:|
+| **Vulnerable plugins** | Elementor RCE (CVE-2023-48777, CVSS 9.9) | Yes — `--url` or `-i plugins.csv` |
+| **Vulnerable themes** | Theme file upload vulnerabilities | Yes — `--type theme` |
+| **Outdated WordPress core** | Core XSS/CSRF/auth bypass | Yes — `--wp-version` or auto-detected via `--url` |
+| **Authentication bypass** | Really Simple SSL (CVE-2024-10924, CVSS 9.8) | Yes — CVE scanning |
+| **Weak credentials** | Brute-forced admin password | No — use Wordfence/WPScan |
+| **Compromised hosting** | Shared hosting neighbor attack | No — server-level check needed |
+| **Supply chain** | Nulled/pirated plugins/themes | No — requires filesystem access |
+| **File upload abuse** | Malicious files in wp-content/uploads/ | No — requires filesystem access |
+| **Database injection** | Modified wp_options, wp_posts | No — requires database access |
+
+> **Important:** wphunter detects the **infection** and identifies **possible** attack vectors through CVE scanning, but it cannot determine the **exact** entry point with certainty. A full forensic investigation requires server access.
+
+### Remediation Guide (If Infected)
+
+If wphunter reports your site as INFECTED, follow these steps:
+
+**1. Immediate Actions**
+- Take a **full backup** of the site (files + database) before making changes — you may need it for forensics
+- Put the site in **maintenance mode** to stop serving gambling content to Google
+
+**2. Remove the Infection**
+- Check `wp-content/mu-plugins/` — attackers commonly drop auto-loading PHP files here
+- Check `wp-content/uploads/` — look for `.php` files (there should be none in uploads)
+- Check modified theme files: `functions.php`, `header.php`, `footer.php`, `index.php`
+- Check `.htaccess` in the root and `wp-content/` — look for suspicious rewrite rules
+- Search the database `wp_options` table for suspicious entries:
+  ```sql
+  SELECT * FROM wp_options WHERE option_value LIKE '%slot%' OR option_value LIKE '%togel%' OR option_value LIKE '%gacor%';
+  ```
+- Check `wp_posts` and `wp_postmeta` for injected gambling content:
+  ```sql
+  SELECT ID, post_title FROM wp_posts WHERE post_content LIKE '%slot gacor%' OR post_content LIKE '%judi online%';
+  ```
+
+**3. Close the Attack Vector**
+- **Update all plugins** to latest versions — `wp plugin update --all`
+- **Update all themes** — `wp theme update --all`
+- **Update WordPress core** — `wp core update`
+- **Delete unused plugins and themes** — attackers often exploit inactive but installed components
+- Consider **replacing WordPress core files** entirely: `wp core download --force`
+
+**4. Secure Credentials**
+- **Change all WordPress admin passwords** — assume they are compromised
+- **Change database password** and update `wp-config.php`
+- **Regenerate WordPress salts** — add new salts from [api.wordpress.org/secret-key](https://api.wordpress.org/secret-key/1.1/salt/)
+- **Change hosting/FTP/SSH passwords**
+- **Review user accounts** — delete any unknown admin users:
+  ```sql
+  SELECT * FROM wp_users;
+  SELECT * FROM wp_usermeta WHERE meta_key = 'wp_capabilities' AND meta_value LIKE '%administrator%';
+  ```
+
+**5. Harden the Site**
+- Install a security plugin (Wordfence, Sucuri, or iThemes Security)
+- Enable two-factor authentication for all admin accounts
+- Disable file editing in WordPress: add `define('DISALLOW_FILE_EDIT', true);` to `wp-config.php`
+- Set correct file permissions: directories `755`, files `644`, `wp-config.php` `440`
+- Block PHP execution in uploads: add `php_flag engine off` to `wp-content/uploads/.htaccess`
+
+**6. Request Re-indexing**
+- Submit a **reconsideration request** in Google Search Console if your site was flagged
+- Use the **URL Inspection tool** to request re-crawling of cleaned pages
+- Monitor Google Search Console for "Security Issues" warnings
+
+### AI Analysis Setup
+
+To use `--ai`, you need an Anthropic API key:
+
+```bash
+# Option 1: Environment variable
+export ANTHROPIC_API_KEY="sk-ant-api03-..."
+
+# Option 2: Interactive setup (saves to ~/.wphunter/auth.json)
+python scanner.py connect
+```
+
+### Docker Test Environment (Judol Simulation)
+
+The `docker-test/` directory includes a test malware file (`judol-infection.php`) that simulates a real judol attack for testing purposes. See `docker-test/test-commands.sh` for the full test procedure.
+
 ## Limitations
 
 - **Known CVEs only** — this tool checks public vulnerability databases. It cannot detect zero-day vulnerabilities, custom code bugs, or misconfigurations.
-- **No live site scanning** — by design. It does not check for exposed files, directory listings, weak passwords, or server misconfigurations. Use WPScan CLI for that.
-- **Slugs must match** — the slug in your CSV must match the WordPress.org slug (e.g., `wordpress-seo` not `yoast-seo` for plugins, `flavor` not `flavor developer` for themes).
-- **No theme/core auto-detection** — you must specify `--type theme` for theme files and `--wp-version` for core scanning.
+- **Slugs must match** — the slug in your CSV must match the WordPress.org slug (e.g., `wordpress-seo` not `yoast-seo` for plugins).
+- **Remote scanning is best-effort** — not all plugins/themes can be detected from the HTML source. Use aggressive mode (`--aggressive`) for broader coverage.
+- **Judol detection is heuristic-based** — may produce false positives on sites with legitimate gambling content.
+- **No filesystem access** — wphunter works externally. It cannot check uploaded files, database entries, or server configurations. For deep forensics, you need server-side tools like Wordfence CLI or manual investigation.
+- **Sitemap required for full page crawl** — if the site has no sitemap.xml or wp-sitemap.xml, only the homepage and common spam directories are checked.
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.9+
 - `requests` >= 2.28.0
 - `rich` >= 13.0.0
+- `beautifulsoup4` >= 4.12 (for HTML parsing)
+- `lxml` >= 5.0 (for fast HTML parsing)
 
 ## Related
 
@@ -508,4 +728,12 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 ## Disclaimer
 
-This tool is for **authorized security testing and auditing only**. Always get proper authorization before scanning systems you don't own. The authors are not responsible for misuse.
+This tool is for **authorized security testing and auditing only**. By using this tool, you agree that:
+
+- You will **only scan websites you own** or have explicit written authorization to test.
+- Remote scanning (`--url`) sends HTTP requests to the target site. While non-destructive, it may be logged by the target's WAF or security plugins.
+- Aggressive mode (`--aggressive`) sends approximately 100+ HTTP requests to the target. Use responsibly and respect rate limits.
+- The **judol detection test files** (`docker-test/judol-infection.php`) are provided for testing purposes only. They simulate real attack patterns and must **never** be deployed on production sites.
+- Judol detection results are **heuristic-based** and may contain false positives or false negatives. Always verify findings manually before taking action.
+- This tool **does not prevent attacks** — it detects existing infections and known vulnerabilities. Use it as part of a broader security strategy.
+- The authors are **not responsible** for any misuse, damage, or unauthorized access resulting from the use of this tool.
