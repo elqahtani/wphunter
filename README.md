@@ -110,6 +110,9 @@ python scanner.py -i plugins.csv --no-enrich
 # Parallel requests (faster for large lists)
 python scanner.py -i plugins.csv --threads 10
 
+# Only critical + high (CI/CD: fail build on serious vulns only)
+python scanner.py -i plugins.csv --min-severity high
+
 # Quiet mode (no banner)
 python scanner.py -i plugins.csv --no-banner
 ```
@@ -127,6 +130,7 @@ python scanner.py -i plugins.csv --no-banner
 | `--no-enrich` | `false` | Skip NVD CVSS enrichment |
 | `--no-banner` | `false` | Skip ASCII banner |
 | `--threads` | `1` | Number of concurrent API requests (e.g. `10` for large lists) |
+| `--min-severity` | — | Minimum severity to report: `critical`, `high`, `medium`, or `low` |
 
 At least one of `--input` or `--wp-version` is required.
 
@@ -345,7 +349,7 @@ Opens in any spreadsheet application. References are semicolon-separated within 
 | `0` | No vulnerabilities found |
 | `1` | Vulnerabilities found |
 
-Use this in CI/CD pipelines to fail builds when vulnerable plugins are detected.
+Use this in CI/CD pipelines to fail builds when vulnerable plugins are detected. Combine with `--min-severity high` to only fail on critical and high severity vulnerabilities.
 
 ## Severity Levels
 

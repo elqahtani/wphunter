@@ -103,6 +103,11 @@ Examples:
         "--threads", default=1, type=int,
         help="Number of concurrent API requests (default: 1)",
     )
+    parser.add_argument(
+        "--min-severity", default=None,
+        choices=["critical", "high", "medium", "low"],
+        help="Minimum severity to report/fail (e.g. high = critical + high only)",
+    )
 
     args = parser.parse_args()
     console = Console(stderr=True)
@@ -182,8 +187,17 @@ Examples:
     if not args.no_enrich and vulns:
         vulns = enrich_with_nvd(vulns)
 
-    # Sort by severity
+    # Severity filtering
     sev_order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "UNKNOWN": 4}
+    if args.min_severity:
+        min_rank = sev_order[args.min_severity.upper()]
+        total_before = len(vulns)
+        vulns = [v for v in vulns if sev_order.get(v.severity, 4) <= min_rank]
+        filtered = total_before - len(vulns)
+        if filtered:
+            print(f"[*] Filtered: {filtered} vulns below {args.min_severity.upper()} severity\n")
+
+    # Sort by severity
     vulns.sort(key=lambda v: (sev_order.get(v.severity, 5), v.package))
 
     # Report
