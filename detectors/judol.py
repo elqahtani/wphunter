@@ -39,6 +39,8 @@ GAMBLING_KEYWORDS = {
         "betway", "bet365", "stake casino",
         # Multilingual gambling keywords
         "kasyno", "kasino", "ruletka",  # Polish
+        # Known judol operator brands
+        "wdbos", "arena303", "gacor88", "slot138", "mpo88",
 
     ],
     "medium": [
@@ -59,6 +61,7 @@ GAMBLING_URL_KEYWORDS = [
     "betting", "vavada", "1xbet", "mostbet", "melbet", "pin-up",
     "gacor", "maxwin", "judol", "bandar", "toto", "kasyno",
     "roulette", "blackjack", "baccarat",
+    "wdbos", "arena303", "gacor88", "slot138", "mpo88",
 ]
 
 GAMBLING_DOMAIN_PATTERNS = [
@@ -68,6 +71,7 @@ GAMBLING_DOMAIN_PATTERNS = [
         r"pragmatic", r"maxwin", r"toto\d*", r"bandar",
         r"vavada", r"1xbet", r"mostbet", r"melbet", r"pin-?up",
         r"kasyno", r"gambling", r"roulette", r"baccarat",
+        r"wdbos", r"arena303", r"cyberhexs",
     ]
 ]
 
