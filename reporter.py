@@ -28,7 +28,7 @@ def print_banner(console: Console):
 │││├─┘├─┤│ ││││ │ ├┤ ├┬┘
 └┴┘┴  ┴ ┴└─┘┘└┘ ┴ └─┘┴└─
 [/bold cyan]
-[dim]WordPress Plugin Vulnerability Scanner[/dim]
+[dim]WordPress Plugin, Theme & Core Vulnerability Scanner[/dim]
 [dim]Sources: WPScan API | WPVulnerability.net | NVD[/dim]
 """
     console.print(banner)
@@ -53,7 +53,7 @@ def report_table(vulns: List[VulnResult], input_file: str,
         title=f"wphunter -- {input_file} (via {source_name})",
         show_lines=True,
     )
-    table.add_column("Plugin", style="cyan", min_width=18)
+    table.add_column("Component", style="cyan", min_width=18)
     table.add_column("CVE", style="bold", min_width=16)
     table.add_column("CVSS", justify="center", min_width=8)
     table.add_column("Severity", justify="center", min_width=10)

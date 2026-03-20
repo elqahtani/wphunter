@@ -15,13 +15,12 @@ _SEVERITY_MAP = {
 }
 
 
-def query_wpvulndb(plugins: List[Tuple[str, str]]) -> List[VulnResult]:
+def query_wpvulndb(plugins: List[Tuple[str, str]],
+                    component_type: str = "plugin") -> List[VulnResult]:
     """Query WPVulnerability.net API (free, no API key needed).
 
-    API: GET https://www.wpvulnerability.net/plugin/{slug}/
-    Returns all known vulnerabilities for a plugin, with CVSS scores,
-    CVE IDs, and cross-references from 6 sources (CVE, WPScan, Wordfence,
-    Patchstack, EUVD, JVN).
+    API: GET https://www.wpvulnerability.net/{component_type}/{slug}/
+    Supports component_type: plugin, theme.
     """
     print("[*] WPVulnerability.net: free API, no key required")
 
@@ -29,7 +28,7 @@ def query_wpvulndb(plugins: List[Tuple[str, str]]) -> List[VulnResult]:
     for slug, version in plugins:
         try:
             resp = requests.get(
-                f"{WPVULNDB_API_URL}/plugin/{slug}/",
+                f"{WPVULNDB_API_URL}/{component_type}/{slug}/",
                 timeout=15,
                 headers={"Accept": "application/json"},
             )
@@ -54,61 +53,8 @@ def query_wpvulndb(plugins: List[Tuple[str, str]]) -> List[VulnResult]:
                 if not _is_affected(vuln, version):
                     continue
 
-                # Extract CVE ID from sources
-                cve_id = _extract_cve_id(vuln)
-
-                # Extract CVSS
-                impact = vuln.get("impact") or {}
-                cvss_data = impact.get("cvss") or {}
-                cvss_score = None
-                severity = "UNKNOWN"
-
-                if cvss_data.get("score"):
-                    try:
-                        cvss_score = float(cvss_data["score"])
-                    except (ValueError, TypeError):
-                        pass
-
-                sev_letter = cvss_data.get("severity", "")
-                if sev_letter in _SEVERITY_MAP:
-                    severity = _SEVERITY_MAP[sev_letter]
-
-                # Extract fix version from operator
-                operator = vuln.get("operator", {})
-                fix_version = ""
-                if operator.get("max_version") and operator.get("unfixed") != "1":
-                    fix_version = operator["max_version"]
-
-                # Summary: use vuln name or first source description
-                summary = vuln.get("name", "")
-                if not summary:
-                    sources = vuln.get("source", [])
-                    for src in sources:
-                        desc = src.get("description", "")
-                        if desc:
-                            # Clean [en] prefix
-                            summary = desc.replace("[en] ", "").replace("[ja] ", "")
-                            break
-
-                # Collect all reference URLs from sources
-                refs = []
-                for src in vuln.get("source", []):
-                    link = src.get("link", "")
-                    if link:
-                        refs.append(link)
-
-                results.append(VulnResult(
-                    package=slug,
-                    version=version,
-                    cve_id=cve_id,
-                    cvss_score=cvss_score,
-                    severity=severity,
-                    summary=summary[:150],
-                    fix_version=fix_version,
-                    source="wpvulndb",
-                    references=refs,
-                ))
                 found += 1
+                results.append(_parse_vuln(vuln, slug, version))
 
             print(f"    [+] {slug}@{version}: {found} vulns")
 
@@ -116,6 +62,104 @@ def query_wpvulndb(plugins: List[Tuple[str, str]]) -> List[VulnResult]:
             print(f"    [!] {slug}: API error — {e}")
 
     return results
+
+
+def query_wpvulndb_core(version: str) -> List[VulnResult]:
+    """Query WPVulnerability.net for WordPress core vulnerabilities.
+
+    API: GET https://www.wpvulnerability.net/core/{version}/
+    """
+    print(f"[*] WPVulnerability.net: querying WordPress core {version}")
+
+    try:
+        resp = requests.get(
+            f"{WPVULNDB_API_URL}/core/{version}/",
+            timeout=15,
+            headers={"Accept": "application/json"},
+        )
+
+        if resp.status_code == 404:
+            print(f"    [-] wordpress-core@{version}: not found")
+            return []
+
+        resp.raise_for_status()
+        data = resp.json()
+
+        if data.get("error") != 0:
+            print(f"    [!] wordpress-core: API error — {data.get('message', 'unknown')}")
+            return []
+
+        core_data = data.get("data", {})
+        vulns = core_data.get("vulnerability") or []
+        results = []
+
+        for vuln in vulns:
+            if not _is_affected(vuln, version):
+                continue
+            results.append(_parse_vuln(vuln, "wordpress-core", version))
+
+        print(f"    [+] wordpress-core@{version}: {len(results)} vulns")
+        return results
+
+    except requests.RequestException as e:
+        print(f"    [!] wordpress-core: API error — {e}")
+        return []
+
+
+def _parse_vuln(vuln: dict, package: str, version: str) -> VulnResult:
+    """Parse a single vulnerability entry into a VulnResult."""
+    cve_id = _extract_cve_id(vuln)
+
+    # Extract CVSS
+    impact = vuln.get("impact") or {}
+    cvss_data = impact.get("cvss") or {}
+    cvss_score = None
+    severity = "UNKNOWN"
+
+    if cvss_data.get("score"):
+        try:
+            cvss_score = float(cvss_data["score"])
+        except (ValueError, TypeError):
+            pass
+
+    sev_letter = cvss_data.get("severity", "")
+    if sev_letter in _SEVERITY_MAP:
+        severity = _SEVERITY_MAP[sev_letter]
+
+    # Extract fix version from operator
+    operator = vuln.get("operator", {})
+    fix_version = ""
+    if operator.get("max_version") and operator.get("unfixed") != "1":
+        fix_version = operator["max_version"]
+
+    # Summary: use vuln name or first source description
+    summary = vuln.get("name", "")
+    if not summary:
+        sources = vuln.get("source", [])
+        for src in sources:
+            desc = src.get("description", "")
+            if desc:
+                summary = desc.replace("[en] ", "").replace("[ja] ", "")
+                break
+
+    # Collect all reference URLs from sources
+    refs = []
+    for src in vuln.get("source", []):
+        link = src.get("link", "")
+        if link:
+            refs.append(link)
+
+    return VulnResult(
+        package=package,
+        version=version,
+        cve_id=cve_id,
+        cvss_score=cvss_score,
+        severity=severity,
+        summary=summary[:150],
+        fix_version=fix_version,
+        source="wpvulndb",
+        references=refs,
+    )
 
 
 def _extract_cve_id(vuln: dict) -> str:

@@ -1,6 +1,6 @@
 # wphunter
 
-A Python CLI tool to scan WordPress plugins for known CVE vulnerabilities **without accessing the live site**. Just export your plugin list with `wp-cli` and scan it offline.
+A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities **without accessing the live site**. Just export your plugin/theme list with `wp-cli` and scan it offline.
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -21,11 +21,12 @@ I wanted to audit the plugins on my WordPress site — quickly check which ones 
 | osv-scanner | No | WordPress not supported |
 | Snyk | No | WordPress not supported |
 
-**wphunter** fills this gap. Export your plugin list, transfer the CSV to your machine, scan offline. No WAF triggers, no firewall issues, no authentication needed.
+**wphunter** fills this gap. Export your plugin/theme list and core version, transfer to your machine, scan offline. No WAF triggers, no firewall issues, no authentication needed.
 
 ## Features
 
-- **Offline scanning** — no access to your WordPress site required, just the plugin list
+- **Offline scanning** — no access to your WordPress site required, just the plugin/theme list
+- **Plugins, themes & core** — scan all three WordPress component types for known CVEs
 - **Multiple vulnerability sources** — WPScan API, WPVulnerability.net, or both combined
 - **Free by default** — WPVulnerability.net requires no API key and aggregates 6 databases (CVE, WPScan, Wordfence, Patchstack, EUVD, JVN)
 - **Smart deduplication** — when using both sources, duplicates are merged keeping the richest data
@@ -54,21 +55,41 @@ python scanner.py -i plugins.csv
 
 That's it. This uses WPVulnerability.net which is completely free.
 
-### Get Your Plugin List
+### Get Your Plugin/Theme List & Core Version
 
 On your WordPress server:
 
 ```bash
+# Plugins
 wp plugin list --format=csv > plugins.csv
+
+# Themes
+wp theme list --format=csv > themes.csv
+
+# Core version
+wp core version
+# Output: 6.4.3
 ```
 
-Transfer `plugins.csv` to your machine (scp, rsync, copy-paste). Then scan.
+Transfer the CSV files to your machine (scp, rsync, copy-paste). Then scan.
 
 ## Usage
 
 ```bash
-# Scan with free source (default)
+# Scan plugins with free source (default)
 python scanner.py -i plugins.csv
+
+# Scan themes
+python scanner.py -i themes.csv --type theme
+
+# Scan WordPress core version
+python scanner.py --wp-version 6.4.3
+
+# Combined: plugins + core
+python scanner.py -i plugins.csv --wp-version 6.4.3
+
+# Combined: themes + core
+python scanner.py -i themes.csv --type theme --wp-version 6.4.3
 
 # Scan with WPScan API
 python scanner.py -i plugins.csv --source wpscan
@@ -93,16 +114,20 @@ python scanner.py -i plugins.csv --no-banner
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `-i, --input` | *(required)* | Plugin list file path |
+| `-i, --input` | — | Plugin/theme list file path |
+| `-t, --type` | `plugin` | Component type for input file: `plugin` or `theme` |
+| `--wp-version` | — | WordPress core version to scan (e.g. `6.4.3`) |
 | `-s, --source` | `wpvulndb` | Vulnerability source: `wpscan`, `wpvulndb`, or `both` |
 | `-f, --format` | `table` | Output format: `table`, `json`, or `csv` |
 | `-o, --output` | *(stdout)* | Write results to file |
 | `--no-enrich` | `false` | Skip NVD CVSS enrichment |
 | `--no-banner` | `false` | Skip ASCII banner |
 
+At least one of `--input` or `--wp-version` is required.
+
 ## Input Formats
 
-The tool auto-detects the format from your file:
+The tool auto-detects the format from your file. The same formats work for both plugins and themes.
 
 **Simple CSV** (manual):
 ```
@@ -111,14 +136,14 @@ contact-form-7,5.5.0
 woocommerce,6.0.0
 ```
 
-**wp-cli CSV output** (`wp plugin list --format=csv`):
+**wp-cli CSV output** (`wp plugin list --format=csv` or `wp theme list --format=csv`):
 ```
 name,status,update,version,update_version,auto_update
 elementor,active,none,3.6.0,,off
 contact-form-7,active,none,5.5.0,,off
 ```
 
-**Tab-separated** (`wp plugin list`):
+**Tab-separated** (`wp plugin list` or `wp theme list`):
 ```
 elementor	active	none	3.6.0
 contact-form-7	active	none	5.5.0
@@ -191,7 +216,7 @@ Color-coded severity levels with CVSS scores, fix versions, and a summary panel.
 │││├─┘├─┤│ ││││ │ ├┤ ├┬┘
 └┴┘┴  ┴ ┴└─┘┘└┘ ┴ └─┘┴└─
 
-WordPress Plugin Vulnerability Scanner
+WordPress Plugin, Theme & Core Vulnerability Scanner
 Sources: WPScan API | WPVulnerability.net | NVD
 
 [*] Found 8 plugins in live-plugins.csv
@@ -332,46 +357,65 @@ Based on CVSS v3 scores:
 ## How It Works
 
 ```
-  [WordPress Server]       [Your Machine]
-        |                       |
-   wp plugin list           wphunter/
-   --format=csv              scanner.py
-        |                       |
-        v                       v
-  +--------------+       +----------------+
-  | plugins.csv  | ----> | Parse plugins  |
-  | slug,version |  scp  | from CSV/TXT   |
-  +--------------+       +---+----+-------+
-                             |    |
-                +------------+    +--------+
-                |                          |
-                v                          v
-       +----------------+       +-----------------+
-       | WPVulnerability|       |   WPScan API    |
-       | .net (FREE)    |       |   (API key)     |
-       | 6 databases    |       |   curated DB    |
-       +-------+--------+       +--------+--------+
-               |                          |
-               +--------+  +-------------+
-                        |  |
-                        v  v
-                +-----------------+
-                |  Deduplicate    |
-                |  + NVD Enrich   |
-                +--------+--------+
-                         |
-               +---------+---------+
-               |         |         |
-               v         v         v
-            [Table]   [JSON]    [CSV]
+  [WordPress Server]              [Your Machine]
+        |                              |
+   wp plugin list                  wphunter/
+   wp theme list                    scanner.py
+   wp core version                     |
+        |                              v
+        v                     +------------------+
+  +--------------+            | Parse plugins/   |
+  | plugins.csv  | --------> | themes from      |
+  | themes.csv   |    scp    | CSV/TXT          |
+  | core: 6.4.3  |           +---+----+---------+
+  +--------------+                |    |
+                     +------------+    +--------+
+                     |                          |
+                     v                          v
+            +----------------+       +-----------------+
+            | WPVulnerability|       |   WPScan API    |
+            | .net (FREE)    |       |   (API key)     |
+            | 6 databases    |       |   curated DB    |
+            +-------+--------+       +--------+--------+
+                    |                          |
+                    +--------+  +-------------+
+                             |  |
+                             v  v
+                     +-----------------+
+                     |  Deduplicate    |
+                     |  + NVD Enrich   |
+                     +--------+--------+
+                              |
+                    +---------+---------+
+                    |         |         |
+                    v         v         v
+                 [Table]   [JSON]    [CSV]
 ```
 
-1. **Export** your plugin list with `wp plugin list --format=csv`
-2. **Transfer** the CSV to your local machine
-3. **Scan** — the tool queries vulnerability APIs for each plugin+version
+1. **Export** your plugin/theme list and core version with `wp-cli`
+2. **Transfer** the CSV files to your local machine
+3. **Scan** — the tool queries vulnerability APIs for each component+version
 4. **Review** — results in terminal table, JSON, or CSV
 
-The tool never touches your WordPress site. It only needs the plugin list.
+The tool never touches your WordPress site. It only needs the exported lists.
+
+### Full Site Audit Example
+
+```bash
+# On WordPress server: export everything
+wp plugin list --format=csv > plugins.csv
+wp theme list --format=csv > themes.csv
+wp core version > wp-version.txt
+
+# On your machine: scan all components
+WP_VER=$(cat wp-version.txt)
+
+# Plugins + core
+python scanner.py -i plugins.csv --wp-version $WP_VER --source both
+
+# Themes (separate run because --type is different)
+python scanner.py -i themes.csv --type theme --source both
+```
 
 ## Project Structure
 
@@ -388,7 +432,7 @@ wphunter/
 │   ├── wpvulndb.py         # WPVulnerability.net client
 │   └── nvd.py              # NVD CVSS enrichment
 ├── parsers/
-│   └── wordpress.py        # Plugin list parser (3 formats)
+│   └── wordpress.py        # Plugin/theme list parser (3 formats)
 ├── docker-test/            # Docker WordPress for testing
 │   └── docker-compose.yml
 └── test_fixtures/
@@ -419,16 +463,23 @@ docker compose run --rm wpcli plugin install woocommerce --version=6.0.0 --activ
 
 # Export and scan
 docker compose run --rm wpcli plugin list --format=csv > live-plugins.csv
+docker compose run --rm wpcli theme list --format=csv > live-themes.csv
+WP_VER=$(docker compose run --rm wpcli core version | tr -d '\r')
 cd ..
-python scanner.py -i docker-test/live-plugins.csv --source both
+
+# Scan plugins + core
+python scanner.py -i docker-test/live-plugins.csv --wp-version $WP_VER --source both
+
+# Scan themes
+python scanner.py -i docker-test/live-themes.csv --type theme --source both
 ```
 
 ## Limitations
 
 - **Known CVEs only** — this tool checks public vulnerability databases. It cannot detect zero-day vulnerabilities, custom code bugs, or misconfigurations.
 - **No live site scanning** — by design. It does not check for exposed files, directory listings, weak passwords, or server misconfigurations. Use WPScan CLI for that.
-- **Plugin slugs must match** — the slug in your CSV must match the WordPress.org slug (e.g., `wordpress-seo` not `yoast-seo`).
-- **Themes not supported (yet)** — currently scans plugins only.
+- **Slugs must match** — the slug in your CSV must match the WordPress.org slug (e.g., `wordpress-seo` not `yoast-seo` for plugins, `flavor` not `flavor developer` for themes).
+- **No theme/core auto-detection** — you must specify `--type theme` for theme files and `--wp-version` for core scanning.
 
 ## Requirements
 
