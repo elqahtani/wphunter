@@ -14,15 +14,16 @@ A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE 
 
 I wanted to audit the plugins on my WordPress site — quickly check which ones had known CVEs. But every existing tool either needed a live URL or didn't support WordPress at all:
 
-| Tool | Scan from plugin list? | Needs live site? |
-|------|:----------------------:|:----------------:|
-| WPScan CLI | No | Yes (URL) |
-| Wordfence CLI | No | Yes (filesystem) |
-| Trivy | No | WordPress not supported |
-| osv-scanner | No | WordPress not supported |
-| Snyk | No | WordPress not supported |
+| Tool | Offline scan? | Judol detection? | AI analysis? | Free? |
+|------|:------------:|:----------------:|:------------:|:-----:|
+| WPScan CLI | No (needs URL) | No | No | Freemium |
+| Wordfence CLI | No (needs filesystem) | No | No | Freemium |
+| Sucuri SiteCheck | No (needs URL) | Partial | No | Free |
+| Trivy | No | No | No | Free |
+| osv-scanner | No | No | No | Free |
+| **wphunter** | **Yes** | **Yes (200+ brands)** | **Yes (Claude AI)** | **Yes** |
 
-**wphunter** fills this gap. Export your plugin/theme list and core version, transfer to your machine, scan offline. No WAF triggers, no firewall issues, no authentication needed.
+**wphunter** fills this gap. Export your plugin/theme list and core version, transfer to your machine, scan offline. No WAF triggers, no firewall issues, no authentication needed. Plus: AI-powered analysis that no other WordPress scanner offers.
 
 ## Features
 
@@ -36,11 +37,20 @@ I wanted to audit the plugins on my WordPress site — quickly check which ones 
 - **Version-aware matching** — only reports vulnerabilities that affect your installed version
 
 ### Judol (Gambling Spam) Detection
-- **Gambling injection detection** — detect hidden Indonesian gambling spam (judol) injected into WordPress sites
-- **Cloaking detection** — compare Googlebot vs human responses to detect SEO cloaking
-- **Hidden element analysis** — find CSS-hidden gambling content (display:none, position:absolute, font-size:0)
-- **Suspicious link/script detection** — identify gambling domains and external scripts
-- **AI-powered analysis** — optional Claude AI analysis for deeper insights
+- **200+ known operator brands** — database of judol brands (WDBOS, Arena303, Slot88, etc.) sourced from law enforcement raids, security research, and hacker databases
+- **Full sitemap crawling** — crawls every page in the WordPress sitemap to find hidden infections
+- **Cloaking detection** — compares Googlebot vs human responses to detect SEO cloaking
+- **Hidden element analysis** — finds CSS-hidden gambling content (display:none, position:absolute, font-size:0, opacity:0)
+- **Suspicious link/script detection** — identifies gambling domains, external scripts, and hacker C2 infrastructure
+- **Keyword database** — high/medium/low confidence keyword matching with multilingual support (Indonesian, English, Polish)
+
+### AI-Powered Analysis (Claude)
+- **Intelligent threat assessment** — Claude AI analyzes scan findings and provides structured security reports
+- **Executive summaries** — bilingual (English + Bahasa Indonesia) summaries for non-technical stakeholders
+- **Infection vector analysis** — AI identifies the likely attack vector based on detected vulnerabilities and infection patterns
+- **Actionable remediation steps** — prioritized, step-by-step cleanup instructions tailored to the specific infection
+- **Two auth options** — use your Anthropic API key (pay-per-token, Sonnet 4) or Claude Pro/Max subscription via Claude Code SDK (no extra cost)
+- **Token usage tracking** — shows input/output tokens and estimated cost after each AI call
 
 ### General
 - **Multiple input formats** — simple CSV, `wp-cli` CSV output, or tab-separated
