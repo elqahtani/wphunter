@@ -1,6 +1,6 @@
 # wphunter
 
-A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities and detect **judol (gambling spam) injection** — with **AI-powered analysis** via Claude. Works both offline (from exported lists) and remotely (from a URL). Supports Anthropic API key (pay-per-token) or Claude Pro/Max subscription via Claude Code SDK.
+A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities, **look up public exploits/POCs**, and detect **judol (gambling spam) injection** — with **AI-powered analysis** via Claude. Works both offline (from exported lists) and remotely (from a URL). Supports Anthropic API key (pay-per-token) or Claude Pro/Max subscription via Claude Code SDK.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![CI](https://github.com/elqahtani/wphunter/actions/workflows/ci.yml/badge.svg)](https://github.com/elqahtani/wphunter/actions)
@@ -14,14 +14,14 @@ A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE 
 
 I wanted to audit the plugins on my WordPress site — quickly check which ones had known CVEs. But every existing tool either needed a live URL or didn't support WordPress at all:
 
-| Tool | Offline scan? | Judol detection? | AI analysis? | Free? |
-|------|:------------:|:----------------:|:------------:|:-----:|
-| WPScan CLI | No (needs URL) | No | No | Freemium |
-| Wordfence CLI | No (needs filesystem) | No | No | Freemium |
-| Sucuri SiteCheck | No (needs URL) | Partial | No | Free |
-| Trivy | No | No | No | Free |
-| osv-scanner | No | No | No | Free |
-| **wphunter** | **Yes** | **Yes (200+ brands)** | **Yes (Claude AI)** | **Yes** |
+| Tool | Offline scan? | POC lookup? | Judol detection? | AI analysis? | Free? |
+|------|:------------:|:-----------:|:----------------:|:------------:|:-----:|
+| WPScan CLI | No (needs URL) | No | No | No | Freemium |
+| Wordfence CLI | No (needs filesystem) | No | No | No | Freemium |
+| Sucuri SiteCheck | No (needs URL) | No | Partial | No | Free |
+| Trivy | No | No | No | No | Free |
+| osv-scanner | No | No | No | No | Free |
+| **wphunter** | **Yes** | **Yes (6 sources)** | **Yes (200+ brands)** | **Yes (Claude AI)** | **Yes** |
 
 **wphunter** fills this gap. Export your plugin/theme list and core version, transfer to your machine, scan offline. No WAF triggers, no firewall issues, no authentication needed. Plus: AI-powered analysis that no other WordPress scanner offers.
 
@@ -52,6 +52,15 @@ I wanted to audit the plugins on my WordPress site — quickly check which ones 
 - **Two auth options** — use your Anthropic API key (pay-per-token, Sonnet 4) or Claude Pro/Max subscription via Claude Code SDK (no extra cost)
 - **Token usage tracking** — shows input/output tokens and estimated cost after each AI call
 
+### POC / Exploit Lookup
+- **Public exploit detection** — checks if ready-to-use exploit code exists for each CVE found
+- **6 free sources** — Shodan CVEDB, CISA KEV, Exploit-DB, nomi-sec PoC-in-GitHub, Nuclei Templates, NVD exploit references
+- **EPSS scoring** — shows exploit probability score (0–100%) from the EPSS model via Shodan CVEDB
+- **CISA KEV matching** — flags CVEs that are actively exploited in the wild (patch immediately)
+- **Priority classification** — each CVE is classified: Exploited in Wild > Public Exploit > Public POC > Nuclei Template > Exploit Refs > No Known POC
+- **Smart caching** — CISA KEV catalog (24h TTL) and Exploit-DB CSV (7d TTL) are cached locally in `~/.wphunter/cache/`
+- **No API keys needed** — all 6 sources are free and require no authentication
+
 ### General
 - **Multiple input formats** — simple CSV, `wp-cli` CSV output, or tab-separated
 - **Multiple output formats** — terminal table, JSON, or CSV
@@ -79,6 +88,13 @@ python scanner.py -i plugins.csv
 
 That's it. This uses WPVulnerability.net which is completely free.
 
+### With POC Lookup
+
+```bash
+# Check if public exploits exist for discovered CVEs
+python scanner.py -i plugins.csv --poc
+```
+
 ### Remote Scan (from URL)
 
 ```bash
@@ -88,8 +104,8 @@ python scanner.py --url https://example.com
 # With judol detection
 python scanner.py --url https://example.com --detect-judol
 
-# Aggressive plugin enumeration + judol + AI analysis
-python scanner.py --url https://example.com --aggressive --detect-judol --ai
+# Full scan: aggressive + POC lookup + judol + AI analysis
+python scanner.py --url https://example.com --aggressive --poc --detect-judol --ai
 ```
 
 ### Get Your Plugin/Theme List & Core Version
@@ -150,6 +166,15 @@ python scanner.py -i plugins.csv --threads 10
 
 # Only critical + high (CI/CD: fail build on serious vulns only)
 python scanner.py -i plugins.csv --min-severity high
+
+# POC lookup: check if public exploits exist for found CVEs
+python scanner.py -i plugins.csv --poc
+
+# POC lookup + both sources + core version
+python scanner.py -i plugins.csv --wp-version 6.4.3 --source both --poc
+
+# POC lookup with JSON output
+python scanner.py -i plugins.csv --poc --format json -o report.json
 ```
 
 ### Remote Scanning (from URL)
@@ -164,8 +189,8 @@ python scanner.py --url https://example.com --aggressive
 # Add judol (gambling spam) detection
 python scanner.py --url https://example.com --detect-judol
 
-# Full scan: aggressive + judol + AI analysis
-python scanner.py --url https://example.com --aggressive --detect-judol --ai
+# Full scan: aggressive + POC lookup + judol + AI analysis
+python scanner.py --url https://example.com --aggressive --poc --detect-judol --ai
 
 # Custom delay between requests (ms)
 python scanner.py --url https://example.com --aggressive --delay 200
@@ -205,6 +230,7 @@ python scanner.py disconnect
 | `--aggressive` | `false` | Aggressive plugin enumeration (remote scan) |
 | `--delay` | `100` | Delay between requests in ms (remote scan) |
 | `--detect-judol` | `false` | Enable judol (gambling spam) detection |
+| `--poc` | `false` | Look up public exploits/POCs for discovered CVEs |
 | `--ai` | `false` | Enable AI-powered analysis (requires auth) |
 | `--ai-model` | `claude-sonnet-4-20250514` | Claude model for AI analysis |
 | `--yes` | `false` | Skip confirmation prompts |
@@ -427,6 +453,83 @@ python scanner.py -i plugins.csv -f csv -o report.csv
 
 Opens in any spreadsheet application. References are semicolon-separated within cells.
 
+### POC Lookup Output
+
+When using `--poc`, an additional table shows exploit/POC availability for each CVE:
+
+```
+                         POC / Exploit Lookup
+┌──────────────────┬──────┬────────────────────┬─────────────────────────┐
+│ CVE              │ EPSS │ Status             │ Details                 │
+├──────────────────┼──────┼────────────────────┼─────────────────────────┤
+│ CVE-2023-48777   │ 0.94 │ 🔴 EXPLOITED IN    │ CISA KEV, 3 GitHub      │
+│                  │      │    WILD            │ repos (★47)             │
+├──────────────────┼──────┼────────────────────┼─────────────────────────┤
+│ CVE-2024-27956   │ 0.91 │ 🟠 PUBLIC EXPLOIT  │ EDB-51942               │
+├──────────────────┼──────┼────────────────────┼─────────────────────────┤
+│ CVE-2023-6553    │ 0.72 │ 🟡 PUBLIC POC      │ 5 GitHub repos (★47)    │
+├──────────────────┼──────┼────────────────────┼─────────────────────────┤
+│ CVE-2024-1234    │ 0.15 │ 🟡 NUCLEI TEMPLATE │ nuclei template         │
+├──────────────────┼──────┼────────────────────┼─────────────────────────┤
+│ CVE-2024-5678    │ 0.03 │ ⚪ NO KNOWN POC    │ —                       │
+└──────────────────┴──────┴────────────────────┴─────────────────────────┘
+
+  3/5 CVEs have public exploits or POCs
+  1 CVE actively exploited in the wild (CISA KEV)
+  Top EPSS: CVE-2023-48777 (94% exploit probability)
+```
+
+**POC Status Classification (priority order):**
+
+| Status | Icon | Source | Meaning |
+|--------|------|--------|---------|
+| Exploited in Wild | 🔴 | CISA KEV | Actively exploited, patch ASAP |
+| Public Exploit | 🟠 | Exploit-DB | Ready-to-use exploit code exists |
+| Public POC | 🟡 | nomi-sec PoC-in-GitHub | POC repository on GitHub |
+| Nuclei Template | 🟡 | nuclei-templates | Detection template exists |
+| Exploit Refs | 🔵 | NVD API | References tagged "Exploit" |
+| No Known POC | ⚪ | (none matched) | No public exploit found |
+
+**EPSS** (Exploit Prediction Scoring System) indicates the probability a CVE will be exploited in the next 30 days. Scores above 0.5 (50%) are highlighted in red.
+
+<details>
+<summary>JSON output with POC data</summary>
+
+When using `--poc --format json`, a `poc` key is added:
+
+```json
+{
+  "scan": { "..." : "..." },
+  "summary": { "..." : "..." },
+  "vulnerabilities": ["..."],
+  "poc": {
+    "CVE-2023-48777": {
+      "cve_id": "CVE-2023-48777",
+      "status": "EXPLOITED IN WILD",
+      "epss_score": 0.9421,
+      "epss_percentile": 0.9935,
+      "exploited_in_wild": true,
+      "ransomware_use": "Known",
+      "exploit_db": [{"id": "51234", "title": "Elementor RCE", "url": "..."}],
+      "github_pocs": [{"url": "...", "name": "user/repo", "stars": 47, "description": "..."}],
+      "has_nuclei_template": true,
+      "nuclei_template_url": "https://raw.githubusercontent.com/...",
+      "nvd_exploit_refs": ["https://..."]
+    },
+    "CVE-2024-5678": {
+      "cve_id": "CVE-2024-5678",
+      "status": "NO KNOWN POC",
+      "epss_score": 0.03,
+      "exploited_in_wild": false,
+      "exploit_db": [],
+      "github_pocs": [],
+      "has_nuclei_template": false
+    }
+  }
+}
+```
+</details>
+
 ## Exit Codes
 
 | Code | Meaning |
@@ -475,7 +578,7 @@ Based on CVSS v3 scores:
             +-------+--------+       +--------+--------+
                     |                          |
                     v                          v
-              [Deduplicate + NVD Enrich] --> [Table/JSON/CSV]
+              [Deduplicate + NVD Enrich] --> [POC Lookup (--poc)] --> [Table/JSON/CSV]
 ```
 
 ### Mode 2: Remote (from URL)
@@ -500,7 +603,7 @@ Based on CVSS v3 scores:
                      +--------+--------+  +------+------+
                               |                  |
                               v                  v
-                     [Combined Report: vulns + judol + AI]
+                     [Combined Report: vulns + POC + judol + AI]
 ```
 
 ### Full Site Audit Example
@@ -514,11 +617,11 @@ wp core version > wp-version.txt
 # On your machine: scan all components
 WP_VER=$(cat wp-version.txt)
 
-# Plugins + core
-python scanner.py -i plugins.csv --wp-version $WP_VER --source both
+# Plugins + core + POC lookup
+python scanner.py -i plugins.csv --wp-version $WP_VER --source both --poc
 
 # Themes (separate run because --type is different)
-python scanner.py -i themes.csv --type theme --source both
+python scanner.py -i themes.csv --type theme --source both --poc
 ```
 
 ## Project Structure
@@ -536,6 +639,7 @@ wphunter/
 │   ├── wpscan.py           # WPScan API v3 client
 │   ├── wpvulndb.py         # WPVulnerability.net client
 │   ├── nvd.py              # NVD CVSS enrichment
+│   ├── poc_lookup.py       # POC/exploit lookup (6 sources)
 │   ├── ai_analyzer.py      # Claude AI analysis
 │   └── token_tracker.py    # API token usage & cost tracking
 ├── parsers/
@@ -584,6 +688,49 @@ python scanner.py -i docker-test/live-plugins.csv --wp-version $WP_VER --source 
 
 # Scan themes
 python scanner.py -i docker-test/live-themes.csv --type theme --source both
+```
+
+## POC / Exploit Lookup
+
+After vulnerability scanning, the `--poc` flag checks whether public exploit code or proof-of-concept exists for each discovered CVE. This helps prioritize patching — a CVE with a ready-to-use exploit is far more dangerous than one with no known POC.
+
+### How It Works
+
+The tool queries **6 free public sources** (no API keys required):
+
+| Source | What It Provides | Cache |
+|--------|-----------------|-------|
+| **Shodan CVEDB** | EPSS score (exploit probability) + KEV flag | Live per-CVE |
+| **CISA KEV** | Actively exploited in the wild confirmation | Local, 24h TTL (~2MB) |
+| **Exploit-DB** | Ready-to-use exploit code entries | Local, 7d TTL (~12MB) |
+| **nomi-sec PoC-in-GitHub** | GitHub POC repositories with star counts | Live per-CVE |
+| **Nuclei Templates** | Detection template existence | Live HEAD check |
+| **NVD API** | References tagged "Exploit" | Live per-CVE |
+
+On first run, CISA KEV and Exploit-DB are downloaded and cached in `~/.wphunter/cache/`. Subsequent runs reuse the cache until TTL expires.
+
+### Rate Limiting
+
+- **Shodan CVEDB / nomi-sec**: 0.5s between requests (conservative)
+- **NVD API**: Uses existing NVD rate limit (6s without key, 0.6s with key)
+- **Nuclei / KEV / Exploit-DB**: No per-request limit (cached or HEAD-only)
+
+For a scan with ~20 CVEs, total POC lookup time is approximately 30–40 seconds.
+
+### Usage
+
+```bash
+# Basic POC lookup
+python scanner.py -i plugins.csv --poc
+
+# Combined with remote scan
+python scanner.py --url https://example.com --poc -y
+
+# Skip NVD enrichment but still do POC lookup
+python scanner.py -i plugins.csv --no-enrich --poc
+
+# Full pipeline: both sources + POC + judol + AI
+python scanner.py --url https://example.com --source both --poc --detect-judol --ai -y
 ```
 
 ## Judol Detection

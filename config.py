@@ -25,6 +25,18 @@ GOOGLE_CSE_ID = os.getenv("GOOGLE_CSE_ID", "")
 # === Claude AI (optional, for --ai analysis) ===
 AI_MODEL = "claude-sonnet-4-20250514"
 
+# === POC Lookup URLs ===
+SHODAN_CVEDB_URL = "https://cvedb.shodan.io/cve"
+NOMI_SEC_POC_URL = "https://poc-in-github.motikan2010.net/api/v1/"
+CISA_KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+EXPLOITDB_CSV_URL = "https://gitlab.com/exploit-database/exploitdb/-/raw/main/files_exploits.csv"
+NUCLEI_TEMPLATES_RAW_URL = "https://raw.githubusercontent.com/projectdiscovery/nuclei-templates/main/http/cves"
+POC_CACHE_DIR = os.path.join(os.path.expanduser("~"), ".wphunter", "cache")
+
+# POC rate limits (seconds between requests)
+SHODAN_RATE_LIMIT = 0.5
+NOMI_SEC_RATE_LIMIT = 0.5
+
 # === Remote scan settings ===
 DEFAULT_USER_AGENT = "wphunter/1.0 (+https://github.com/elqahtani/wphunter)"
 GOOGLEBOT_USER_AGENT = (

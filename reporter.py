@@ -178,6 +178,88 @@ def report_csv(vulns: List[VulnResult], input_file: str,
         print(csv_str)
 
 
+def report_poc_table(poc_results: dict, console: Optional[Console] = None):
+    """Display POC/exploit lookup results as a rich table.
+
+    Args:
+        poc_results: {cve_id: PocResult} from PocLookup.lookup_all()
+        console: Rich console instance
+    """
+    if console is None:
+        console = Console()
+
+    if not poc_results:
+        return
+
+    POC_STATUS_COLORS = {
+        "EXPLOITED IN WILD": "bold red",
+        "PUBLIC EXPLOIT": "red",
+        "PUBLIC POC": "yellow",
+        "NUCLEI TEMPLATE": "yellow",
+        "EXPLOIT REFS": "blue",
+        "NO KNOWN POC": "dim",
+    }
+
+    POC_STATUS_ICONS = {
+        "EXPLOITED IN WILD": "🔴",
+        "PUBLIC EXPLOIT": "🟠",
+        "PUBLIC POC": "🟡",
+        "NUCLEI TEMPLATE": "🟡",
+        "EXPLOIT REFS": "🔵",
+        "NO KNOWN POC": "⚪",
+    }
+
+    table = Table(title="POC / Exploit Lookup", show_lines=True)
+    table.add_column("CVE", style="bold", min_width=18)
+    table.add_column("EPSS", justify="center", min_width=6)
+    table.add_column("Status", min_width=20)
+    table.add_column("Details", min_width=25)
+
+    # Sort: exploited in wild first, then by EPSS descending
+    status_order = {
+        "EXPLOITED IN WILD": 0, "PUBLIC EXPLOIT": 1, "PUBLIC POC": 2,
+        "NUCLEI TEMPLATE": 3, "EXPLOIT REFS": 4, "NO KNOWN POC": 5,
+    }
+    sorted_results = sorted(
+        poc_results.values(),
+        key=lambda r: (status_order.get(r.status, 9), -(r.epss_score or 0)),
+    )
+
+    for r in sorted_results:
+        color = POC_STATUS_COLORS.get(r.status, "dim")
+        icon = POC_STATUS_ICONS.get(r.status, "")
+
+        epss_str = f"{r.epss_score:.2f}" if r.epss_score is not None else "—"
+        epss_text = Text(epss_str)
+        if r.epss_score is not None and r.epss_score >= 0.5:
+            epss_text.stylize("bold red")
+        elif r.epss_score is not None and r.epss_score >= 0.1:
+            epss_text.stylize("yellow")
+
+        status_text = Text(f"{icon} {r.status}")
+        status_text.stylize(color)
+
+        table.add_row(r.cve_id, epss_text, status_text, r.details_text)
+
+    console.print()
+    console.print(table)
+
+    # Summary line
+    total = len(poc_results)
+    with_poc = sum(1 for r in poc_results.values() if r.status != "NO KNOWN POC")
+    kev_count = sum(1 for r in poc_results.values() if r.exploited_in_wild)
+    top_epss = max(poc_results.values(), key=lambda r: r.epss_score or 0)
+
+    console.print()
+    console.print(f"  {with_poc}/{total} CVEs have public exploits or POCs")
+    if kev_count:
+        console.print(f"  [bold red]{kev_count} CVE{'s' if kev_count != 1 else ''} actively exploited in the wild (CISA KEV)[/bold red]")
+    if top_epss.epss_score is not None and top_epss.epss_score > 0:
+        pct = int(top_epss.epss_score * 100)
+        console.print(f"  Top EPSS: {top_epss.cve_id} ({pct}% exploit probability)")
+    console.print()
+
+
 def report_judol_table(judol_result, console: Optional[Console] = None):
     """Display judol detection results as a rich table."""
     if console is None:

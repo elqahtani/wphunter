@@ -32,6 +32,7 @@ from apis.nvd import enrich_with_nvd
 from reporter import (
     report_table, report_json, report_csv, print_banner,
     report_judol_table, report_ai_analysis, print_token_usage,
+    report_poc_table,
 )
 
 
@@ -105,9 +106,10 @@ Source options:
 
 Examples:
   %(prog)s -i plugins.txt
+  %(prog)s -i plugins.txt --poc
   %(prog)s --url https://target.com --detect-judol
-  %(prog)s --url https://target.com --source both --detect-judol --ai
-  %(prog)s -i plugins.txt --wp-version 6.4.3 --source both
+  %(prog)s --url https://target.com --source both --detect-judol --poc --ai
+  %(prog)s -i plugins.txt --wp-version 6.4.3 --source both --poc
   %(prog)s connect
         """,
     )
@@ -163,6 +165,10 @@ Examples:
     parser.add_argument("--detect-judol", action="store_true",
                         help="Enable gambling spam injection detection")
 
+    # POC lookup
+    parser.add_argument("--poc", action="store_true",
+                        help="Look up public exploits/POCs for discovered CVEs")
+
     # AI analysis
     parser.add_argument("--ai", action="store_true",
                         help="Enable AI analysis (requires authentication)")
@@ -204,6 +210,7 @@ Examples:
     ai_analysis = None
     tracker = None
     remote_result = None
+    poc_results = None
 
     # ── Pre-check: AI auth ────────────────────────────────────────────────
     ai_cred = None
@@ -358,6 +365,16 @@ Examples:
 
     vulns.sort(key=lambda v: (sev_order.get(v.severity, 5), v.package))
 
+    # ── POC lookup ────────────────────────────────────────────────────────
+    if args.poc and vulns:
+        from apis.poc_lookup import PocLookup
+
+        poc = PocLookup()
+        cve_ids = list({v.cve_id for v in vulns if v.cve_id.startswith("CVE-")})
+        if cve_ids:
+            poc_results = poc.lookup_all(cve_ids)
+            print()
+
     # ── Judol detection ──────────────────────────────────────────────────
     if args.detect_judol:
         if not args.url:
@@ -394,11 +411,15 @@ Examples:
 
     if args.format == "json":
         _report_json_combined(vulns, judol_result, ai_analysis, tracker,
-                             input_name, source_label, args.output)
+                             poc_results, input_name, source_label, args.output)
     else:
         # Vulnerability report
         report_fns = {"table": report_table, "csv": report_csv}
         report_fns[args.format](vulns, input_name, source_label, args.output)
+
+        # POC report (table only)
+        if poc_results and args.format == "table":
+            report_poc_table(poc_results, Console())
 
         # Judol report (table only)
         if judol_result and args.format == "table":
@@ -423,8 +444,8 @@ Examples:
 
 
 def _report_json_combined(vulns, judol_result, ai_analysis, tracker,
-                          input_name, source_label, output_file):
-    """Combined JSON output with vulns + judol + AI."""
+                          poc_results, input_name, source_label, output_file):
+    """Combined JSON output with vulns + judol + AI + POC."""
     from collections import Counter
 
     sev_counts = Counter(v.severity for v in vulns)
@@ -454,6 +475,11 @@ def _report_json_combined(vulns, judol_result, ai_analysis, tracker,
             for v in vulns
         ],
     }
+
+    if poc_results:
+        output["poc"] = {
+            cve_id: r.to_dict() for cve_id, r in poc_results.items()
+        }
 
     if judol_result:
         output["judol"] = judol_result.to_dict()
