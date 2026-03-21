@@ -1,6 +1,6 @@
 # wphunter
 
-A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities and detect **judol (gambling spam) injection** — works both offline (from exported lists) and remotely (from a URL).
+A Python CLI tool to scan WordPress **plugins, themes, and core** for known CVE vulnerabilities and detect **judol (gambling spam) injection** — with **AI-powered analysis** via Claude. Works both offline (from exported lists) and remotely (from a URL). Supports Anthropic API key (pay-per-token) or Claude Pro/Max subscription via Claude Code SDK.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![CI](https://github.com/elqahtani/wphunter/actions/workflows/ci.yml/badge.svg)](https://github.com/elqahtani/wphunter/actions)
