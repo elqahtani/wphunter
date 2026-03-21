@@ -18,87 +18,15 @@ from config import (
     GOOGLE_CSE_API_KEY, GOOGLE_CSE_ID,
     GOOGLEBOT_USER_AGENT, REQUEST_TIMEOUT,
 )
+from detectors.judol_keywords import (
+    GAMBLING_KEYWORDS, JUDOL_OPERATOR_BRANDS,
+    GAMBLING_URL_KEYWORDS, GAMBLING_DOMAIN_PATTERNS,
+    SUSPICIOUS_TLDS, HIDDEN_CSS_PATTERNS, SPAM_DIRS, SERP_QUERIES,
+)
 
-
-# ── Gambling Keyword Database ────────────────────────────────────────────────
-
-GAMBLING_KEYWORDS = {
-    "high": [
-        "slot gacor", "slot88", "slot777", "togel", "togel hongkong",
-        "togel singapore", "togel sydney", "bandar togel", "judi online",
-        "judi bola", "sbobet", "sbobet88", "rtp live", "rtp slot",
-        "bocoran rtp", "maxwin", "scatter hitam", "deposit pulsa",
-        "slot deposit", "daftar slot", "link alternatif", "situs gacor",
-        "slot terpercaya", "judi slot", "agen slot", "pragmatic play",
-        "pg soft", "habanero slot", "bonus new member", "slot online",
-        "casino online", "poker online", "dominoqq", "bandarqq",
-        "pkv games", "slot dana", "slot gopay", "slot ovo",
-        # International gambling terms
-        "online casino", "live casino", "sports betting", "online gambling",
-        "vavada", "1xbet", "mostbet", "melbet", "pin-up casino",
-        "betway", "bet365", "stake casino",
-        # Multilingual gambling keywords
-        "kasyno", "kasino", "ruletka",  # Polish
-        # Known judol operator brands
-        "wdbos", "arena303", "gacor88", "slot138", "mpo88",
-
-    ],
-    "medium": [
-        "jackpot", "bonus deposit", "freebet", "freespin", "free spin",
-        "bet online", "taruhan", "bandar", "agen bola", "parlay",
-        "mix parlay", "handicap", "over under", "livescore",
-        "withdraw", "turnover", "rollover",
-    ],
-    "low": [
-        "gacor", "scatter", "wild", "rtp",
-        "deposit", "bonus", "promo", "daftar",
-    ],
-}
-
-# Keywords specifically for URL/slug detection (broader than content keywords)
-GAMBLING_URL_KEYWORDS = [
-    "slot", "togel", "judi", "casino", "poker", "sbobet", "gambling",
-    "betting", "vavada", "1xbet", "mostbet", "melbet", "pin-up",
-    "gacor", "maxwin", "judol", "bandar", "toto", "kasyno",
-    "roulette", "blackjack", "baccarat",
-    "wdbos", "arena303", "gacor88", "slot138", "mpo88",
-]
-
-GAMBLING_DOMAIN_PATTERNS = [
-    re.compile(p, re.IGNORECASE) for p in [
-        r"slot\d*", r"togel", r"judi", r"casino", r"poker",
-        r"sbobet", r"gacor", r"bet\d+", r"judol",
-        r"pragmatic", r"maxwin", r"toto\d*", r"bandar",
-        r"vavada", r"1xbet", r"mostbet", r"melbet", r"pin-?up",
-        r"kasyno", r"gambling", r"roulette", r"baccarat",
-        r"wdbos", r"arena303", r"cyberhexs",
-    ]
-]
-
-SUSPICIOUS_TLDS = {".xyz", ".top", ".click", ".online", ".site", ".fun", ".bid", ".win"}
-
-# Hidden CSS patterns
-HIDDEN_CSS_PATTERNS = [
-    (r"display\s*:\s*none", "display:none"),
-    (r"visibility\s*:\s*hidden", "visibility:hidden"),
-    (r"position\s*:\s*absolute[^;]*left\s*:\s*-\d+", "position:absolute+left:-9999px"),
-    (r"font-size\s*:\s*0", "font-size:0"),
-    (r"z-index\s*:\s*-\d+", "z-index:-1"),
-    (r"opacity\s*:\s*0(?:[;\s]|$)", "opacity:0"),
-    (r"overflow\s*:\s*hidden[^;]*(?:height|width)\s*:\s*0", "overflow:hidden+size:0"),
-    (r"text-indent\s*:\s*-\d{4,}", "text-indent:-9999"),
-    (r"color\s*:\s*(?:white|#fff(?:fff)?|rgb\(255)", "color:white"),
-]
-
-# Spam directories commonly created by attackers
-SPAM_DIRS = ["/docs/", "/go/", "/link/", "/out/", "/redirect/", "/slot/",
-             "/judi/", "/togel/", "/casino/", "/sbobet/"]
-
-# SERP search queries
-SERP_QUERIES = [
-    "slot gacor", "togel", "judi online", "casino online",
-    "sbobet", "rtp live", "poker online",
-]
+# Merge operator brands into high-confidence keywords for content scanning
+_MERGED_HIGH = GAMBLING_KEYWORDS["high"] + JUDOL_OPERATOR_BRANDS
+GAMBLING_KEYWORDS = {**GAMBLING_KEYWORDS, "high": _MERGED_HIGH}
 
 
 # ── Data Classes ─────────────────────────────────────────────────────────────
