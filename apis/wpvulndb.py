@@ -197,8 +197,9 @@ def _is_affected(vuln: dict, version: str) -> bool:
 
     Mirrors PHP's version_compare behavior:
       - max_operator "lt" + max_version "5.3.2" means: affected if version < 5.3.2
-      - max_operator "lte" means: affected if version <= max_version
-      - min_operator "gte" + min_version "3.0" means: affected if version >= 3.0
+      - max_operator "lte"/"le" means: affected if version <= max_version
+      - min_operator "gte"/"ge" + min_version "3.0" means: affected if version >= 3.0
+    Note: API may return "ge"/"le" (short) or "gte"/"lte" (long) forms.
     """
     operator = vuln.get("operator", {})
     if not operator:
@@ -214,7 +215,7 @@ def _is_affected(vuln: dict, version: str) -> bool:
         cmp = _cmp_ver(version, min_ver)
         if min_op == "gt" and cmp <= 0:
             return False
-        if min_op == "gte" and cmp < 0:
+        if min_op in ("gte", "ge") and cmp < 0:
             return False
 
     # Check maximum version constraint
@@ -222,7 +223,7 @@ def _is_affected(vuln: dict, version: str) -> bool:
         cmp = _cmp_ver(version, max_ver)
         if max_op == "lt" and cmp >= 0:
             return False
-        if max_op == "lte" and cmp > 0:
+        if max_op in ("lte", "le") and cmp > 0:
             return False
 
     return True

@@ -61,6 +61,17 @@ class TestWpvulndbAffected:
         assert wpvulndb_affected(vuln, "4.0") is True
         assert wpvulndb_affected(vuln, "5.0") is False
 
+    def test_short_operators_ge_le(self):
+        """API returns 'ge'/'le' (short form) instead of 'gte'/'lte'."""
+        vuln = {"operator": {"min_version": "9.0.0", "min_operator": "ge",
+                              "max_version": "9.1.1.1", "max_operator": "le"}}
+        assert wpvulndb_affected(vuln, "8.9.9") is False   # below range
+        assert wpvulndb_affected(vuln, "9.0.0") is True    # at min boundary
+        assert wpvulndb_affected(vuln, "9.1.0") is True    # within range
+        assert wpvulndb_affected(vuln, "9.1.1.1") is True  # at max boundary
+        assert wpvulndb_affected(vuln, "9.1.2") is False   # above range
+        assert wpvulndb_affected(vuln, "9.5.8") is False   # well above range
+
 
 class TestWpscanAffected:
     """WPScan fixed_in-based affected check."""
